@@ -74,9 +74,10 @@ def merging_checkings_credit(checkings_df, credit_df):
     return merged_df
 
 def navy_fed_to_csv(checkings_csv, credit_csv):
-    checkings_df = checkings(checkings_csv)
-    credit_df = visa_credit(credit_csv)
-    merged_df = merging_checkings_credit(checkings_df, credit_df)
+    merged_df = merging_checkings_credit(
+                                    checkings_df=checkings(checkings_csv), 
+                                    credit_df=visa_credit(credit_csv))
+    
     return merged_df.to_csv(os.path.join(path_of_folder, 'func_data_files', 'navyfed_data.csv'))
 
 if __name__ == '__main__': 

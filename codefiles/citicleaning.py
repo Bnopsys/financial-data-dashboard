@@ -61,9 +61,10 @@ def merge_citi_dataframes(debit_df, credit_df):
     return citi_dataframe
 
 def citi_to_csv(debit_csv, credit_csv):
-    debit_df = transactions_debit(debit_csv)
-    credit_df = transactions_credit(credit_csv)
-    merged_df = merge_citi_dataframes(debit_df, credit_df)
+    merged_df = merge_citi_dataframes(
+                                    debit_df=transactions_debit(debit_csv), 
+                                    credit_df=transactions_credit(credit_csv))
+    
     return merged_df.to_csv(os.path.join(path_of_folder, 'func_data_files', 'citi_data.csv'))
 
 

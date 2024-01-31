@@ -45,8 +45,7 @@ def sort_and_index_reset(df):
     return df
 
 def cof_to_csv(file):
-    df = main(file)
-    return df.to_csv(os.path.join(path_of_folder, 'func_data_files', 'capitalone_data.csv'))
+    return main(file).to_csv(os.path.join(path_of_folder, 'func_data_files', 'capitalone_data.csv'))
 
 if __name__ == '__main__':
     tableEx = main(datafile)
