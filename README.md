@@ -1,18 +1,38 @@
 # (WIP) Financial Dashboard Project
-#### The Financial Dashboard Project is a tool that takes my current bank/credit card transactions and analyzes the data so I can make meaningful conclusions from it. For privacy reasons, I didn't include my data with the project. I had a few main goals with this project that are: 
-1. Learn more about Pandas and become more comfortable with it, 
-2. Create a budget for both myself and Reanne
-3. Work more with Data Visualization
 
-## Outline for README
-### Pandas
+The Financial Dashboard Project is a tool that takes my current bank/credit card transactions and analyzes the data so I can make meaningful conclusions from it. For privacy reasons, I didn't include my data with the project. <br/> 
+> Project Goals: 
+> 1. Learn more about Pandas and become more comfortable with it, 
+> 2. Create a budget for both myself and Reanne
+> 3. Work more with Data Visualization
 
-### Budget
 
-### Data Visualization
-#### Tables
 
-#### Graphs/Charts
+## Python
+**Importing functions from Modules**
+
+
+
+## Pandas
+**Converting to Datetime** <br/>
+By using the following code you can convert your date column to datetime and also convert to days. For what I need dates for, having the time isn't very relavant.
+
+```python
+df['Date'] = pd.to_datetime(df['Date']) 
+df['Date'] = df['Date'].dt.date
+```
+
+
+## Budget
+
+
+
+## Data Visualization
+
+### Tables
+
+
+### Graphs/Charts
 
 
 # TODO:
