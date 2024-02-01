@@ -3,20 +3,30 @@
 
 
 import pandas as pd
-from codefiles import citi_to_csv, cof_to_csv, navy_fed_to_csv
+import os
+from codefiles import *
 import matplotlib.pyplot as plt
 from additionalresources.pysankey import sankey
-import os
+
 
 # files
 
 path_to_func_folder = '/Users/roddystones/Documents/datafiles/func_data_files'
-path_to_data_folder = '/Users/roddystones/Documents/datafiles' # learn how to use the path above and go back one level then add the filename.
+path_to_data_folder = '/Users/roddystones/Documents/datafiles'
 citi_csv = os.path.join(path_to_func_folder, 'citi_data.csv')
-cof_csv = os.path.join(path_to_func_folder, 'capitalone_data.csv')
+cof_csv = os.path.join(path_to_func_folder, 'capital_one_data.csv')
 navyfed_csv = os.path.join(path_to_func_folder, 'navyfed_data.csv')
 
-class fiancial_df:
+"""file_comparison_dict = {['CitiDebit.csv', 'CitiCredit.csv']: 'citi_data.csv', 
+                        'CapitalOneTrans.csv': 'capital_one_data.csv', 
+                        ['NavyFedCheckings.csv', 'NavyFedCredit.csv']: 'navyfed_data.csv'}"""
+
+class Fiancial_df:
+    """
+    This class takes the category passed to it and filters down the main table with that criteria.
+
+    TODO Use the categorical tables for individual analysis.
+    """
     def __init__(self, dataframe, category):
         self.dataframe = dataframe
         self.category = category
@@ -24,21 +34,44 @@ class fiancial_df:
     def filter_category(self, dataframe, category):
         return dataframe.loc[dataframe['Category'] == category]
     
+class Retrieve_DF:
+    """
+    This class takes the csv's passed and creates dataframes for each. While it may not need to be contained within a class, it adds structure to the file.
+
+    TODO Change name oh god.. 
+
+    TODO ask in the init if the file is citi, cof, or navyfed
+    """
+    def __init__(self, file):
+        self.file = os.path.join(path_to_func_folder, file)
+
+    def refresh_csv(self, company):
+        if company == 'Citi':
+            ...
+        elif company == 'Capital One':
+            ...
+        elif company == 'Navy Fed':
+            ...
+        else:
+            print('error: Invalid Company') # TODO raise exception  
+        # refactor to look at company name and use dictionary[1][1](ex) to pick the filtered or not data file for the input
+
 
 
 
 
 # TODO make a regex for finding which files are citi, cof, and navy fed. also for the files with two different 
 #      files identify them.have it so i can iterate over a folder
+
 # TODO look into functools as it has alot of helpful resources with classes/functions
 # TODO working with all of the different dataframes created from mainframe
 # TODO make a class for the visuals
 # TODO make a class for dealing with retrieving data from the other files
 
 def refresh_all_csv():
-    citi_to_csv(debit_csv=os.path.join(path_to_data_folder, 'CitiTransactionsDebit.csv'), 
-                credit_csv=os.path.join(path_to_data_folder, 'CitiTransactionsDecemberCredit.csv'))
-    cof_to_csv(file=os.path.join(path_to_data_folder, 'captialoneTransactionsDecember.csv'))
+    citi_to_csv(debit_csv=os.path.join(path_to_data_folder, 'CitiDebit.csv'), 
+                credit_csv=os.path.join(path_to_data_folder, 'CitiCredit.csv'))
+    cof_to_csv(file=os.path.join(path_to_data_folder, 'CapitalOneTrans.csv'))
     navy_fed_to_csv(checkings_csv=os.path.join(path_to_data_folder, 'NavyFedCheckings.csv'), credit_csv=os.path.join(path_to_data_folder, 'NavyFedCredit.csv'))
 
 
