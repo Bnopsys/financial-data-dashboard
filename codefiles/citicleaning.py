@@ -3,8 +3,8 @@ import os
 
 path_of_folder = '/Users/roddystones/Documents/datafiles'
 
-debit_file = os.path.join(path_of_folder, 'CitiTransactionsDebit.CSV')
-credit_file = os.path.join(path_of_folder, 'CitiTranactionsDecemberCredit.CSV')
+debit_file = os.path.join(path_of_folder, 'CitiDebit.CSV')
+credit_file = os.path.join(path_of_folder, 'CitiCredit.CSV')
 
 default_categories = {'Payment/Credit': 'Payment/FromCheckings', 
                       'Restaurants': 'Food', 

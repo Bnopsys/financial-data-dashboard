@@ -3,7 +3,7 @@ import os
 
 path_of_folder = '/Users/roddystones/Documents/datafiles'
 
-datafile = os.path.join(path_of_folder, 'captialoneTransactionsDecember.csv')
+datafile = os.path.join(path_of_folder, 'CapitalOneTrans.csv')
 
 card_users = {
         9623: 'Reanne C.', 
