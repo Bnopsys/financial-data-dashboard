@@ -73,9 +73,9 @@ def merging_checkings_credit(checkings_df, credit_df):
     merged_df['Category'] = merged_df['Category'].map(default_categories)
     return merged_df
 
-def navy_fed_to_csv(checkings_csv, credit_csv):
+def navy_fed_to_csv(debit_csv, credit_csv):
     merged_df = merging_checkings_credit(
-                                    checkings_df=checkings(checkings_csv), 
+                                    checkings_df=checkings(debit_csv), 
                                     credit_df=visa_credit(credit_csv))
     
     return merged_df.to_csv(os.path.join(path_of_folder, 'func_data_files', 'navyfed_data.csv'))

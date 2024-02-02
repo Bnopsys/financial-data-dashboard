@@ -1,8 +1,9 @@
 """
 A library of dependencies related to the financial-data-dashboard.
 
+By using `from codefiles import *` it will provide: `citi_to_csv`, `cof_to_csv`, `navy_fed_to_csv`
+
 Below are all the institutions I choose to use to include in my financial ecosystem.
-Contains: 
     * Citi
         - Requires two files: Transaction file, and Credit file.
         - Transaction file contains categories but doesn't have include payments so they need to be in their own file.
@@ -25,7 +26,9 @@ Contains:
 
 
 
+# The __all__ variable allows us to specify what to import with the `import *` method
 __all__ = ['citi_to_csv', 'cof_to_csv', 'navy_fed_to_csv']
+
 from .citicleaning import citi_to_csv
 from .capitalonecleaning import cof_to_csv
 from .navyfedcleaning import navy_fed_to_csv
