@@ -87,7 +87,10 @@ I added list comprehension to the merge_financial_csvs() so that instead of crea
 > [ ] Visual Class
 > 
 > [ ] Data Class
-
+>
+> [ ] Use an API instead of pulling data
+> 
+> [ ] For larger scale using a dictionary is preferrable but with a small amount of data, function calls are sufficent
 
 ---Data Drop Folder/Config File-------------------
 * make a datadrop folder and when I run the final code it takes the current month with the first 
