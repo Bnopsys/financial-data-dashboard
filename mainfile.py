@@ -61,7 +61,11 @@ def unique_categories_func(df):
 
 # make a boba regex to pick out the boba purchases.
 # boba_identifier(mainframe)
-
+def boba_func(df):
+    """
+    Wrapper to the boba_identifier() function. This isn't a great way to identify boba places but it does give me some insight 
+    
+    """
 def top_five_func(df):
     return find_top_five_purchases(df)
 
@@ -74,7 +78,7 @@ if __name__ == '__main__':
     merging_dfs(create_dfs(), folder_path)
     mainframe = retrieving_main_df()
     # create_categorical_dfs(mainframe, current_categories(mainframe))
-    boba_identifier(mainframe)
+    print(boba_identifier(mainframe))
     
 
     
