@@ -6,9 +6,9 @@ debit_file = os.path.join(path_of_data_folder, 'CitiDebit.csv')
 credit_file = os.path.join(path_of_data_folder, 'CitiCredit.csv')
 
 default_categories_citi = {'Payment/FromCheckings': 'Payment/FromCheckings', 
-                      'Restaurants': 'Food', 
+                      'Restaurants': 'Restaurants', 
                       'Vehicle Services': 'Transportation', 
-                      'Merchandise': 'Merchandise', 
+                      'Merchandise': 'Misc', 
                       'Services': 'Misc'}
 
 def process_citi():
@@ -34,3 +34,6 @@ def process_citi():
     func_default_categories(citi_merged_df, default_categories_citi)
     send_to_csv(citi_merged_df, path_of_data_folder, 'citi_data.csv')
     
+
+if __name__ == '__main__':
+    process_citi()

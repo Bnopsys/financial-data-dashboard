@@ -37,20 +37,20 @@ class ProcessData:
                         {'Data File': {'Debit': os.path.join(path_to_data_folder, 'CitiDebit.csv'), 
                                        'Credit': os.path.join(path_to_data_folder, 'CitiCredit.csv')}, 
                         'Modified File': os.path.join(path_to_func_folder, 'citi_data.csv'), 
-                        'ResetCSVFunction': citi_to_csv}, 
+                        'ResetCSVFunction': "citi_to_csv"}, 
 
 
                     'Capital One': 
                         {'Data File': os.path.join(path_to_data_folder, 'CapitalOneTrans.csv'), 
                          'Modified File': os.path.join(path_to_func_folder, 'capital_one_data.csv'), 
-                         'ResetCSVFunction': cof_to_csv}, 
+                         'ResetCSVFunction': "cof_to_csv"}, 
 
 
                     'Navy Fed': 
                         {'Data File': {'Debit': os.path.join(path_to_data_folder, 'NavyFedCheckings.csv'), 
                                        'Credit': os.path.join(path_to_data_folder, 'NavyFedCredit.csv')}, 
                          'Modified File': os.path.join(path_to_func_folder, 'navyfed_data.csv'), 
-                         'ResetCSVFunction': navy_fed_to_csv}}
+                         'ResetCSVFunction': "navy_fed_to_csv"}}
     
 
     def __init__(self, *company):

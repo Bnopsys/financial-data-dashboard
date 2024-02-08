@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import os
 
+
 # rules:
 # 1. Dont call anything outside of functions: only lists, dictionaries, and variables
 #   Good general rule but this is now a utils file so it is only functions
@@ -14,12 +15,17 @@ def add_users_map(df, dict):
     df['User'] = df['Card No.'].map(dict)
     return df['User']
 
-def modify_cols(df, tablename, User=None, Date=None):
-    df['Table'] = tablename
+def modify_cols(df: pd.DataFrame, tablename=None, User=None, Date=None):
     if User != None:
         df['User'] = User
+        
     if Date != None:
-        df['Date'] = df[Date]
+        df['Date'] = pd.to_datetime(df[Date])
+        df['Date'] = df['Date'].dt.date
+
+    if tablename != None:
+        df['Table'] = tablename
+
     df = df[['Date', 'User', 'Category', 'Description', 'Debit', 'Credit', 'Table']]
     return df
 
@@ -59,10 +65,6 @@ def users_roderick(df):
 def merge_dataframes(debit_df, credit_df):## make this function use *args
     return pd.concat([debit_df, credit_df])
 
-def determining_category(df):
-    df['Category'] = np.where(df['Debit'].isna(), 'Income', 'Payment/ToCredit')
-    return df['Category']
-
 def converting_amount_indicator(df):
     df['Credit'] = np.where(df['Credit Debit Indicator'] == 'Credit', df['Amount'], 'NaN')
     df['Debit'] = np.where(df['Credit Debit Indicator'] == 'Debit', df['Amount'], 'NaN')
@@ -77,3 +79,7 @@ def validate_in_dict(object, company_dict, keys: list = None):
         raise ValueError('Invalid company: {}. Valid options are {}'.format(object, list(company_dict.keys())))
     
     return True
+
+if __name__ == '__main__':
+    functions_list = [func for func in dir() if callable(globals()[func]) and hasattr(globals()[func], '__call__')]
+    print(functions_list)
