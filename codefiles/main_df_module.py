@@ -94,3 +94,13 @@ def correcting_categories(df: pd.DataFrame, shop_list, newloc):
         mask = df['Description'].str.contains(item, case=False)
         df.loc[mask, 'Category'] = newloc
 
+def identifying_payments(df: pd.DataFrame):
+    credit_df = df.loc[df['Category'] == 'Payment/FromCheckings']
+    payment_total = 0
+    for _, row in credit_df.iterrows():
+        payment: float = row['Debit']
+        if pd.isna(payment) or payment == '':
+            continue
+        payment_total += payment
+
+    return payment_total

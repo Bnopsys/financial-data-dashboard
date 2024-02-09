@@ -50,13 +50,7 @@ def unique_categories_func(df):
 
 # get totals for gas money| why did we spend more than last month on gas
 # how much for maintenance cost per month or 3 months
-# military provides us 800 for food
 # tracking payment to credit and from checkings
-# how much we spend on clothing
-# tracking higene items
-# insurance
-# how much we spend on liquor
-# how much we spend on fast food/resturants
 
 def top_five_func(df):
     return find_top_five_purchases(df)
@@ -102,6 +96,7 @@ if __name__ == '__main__':
     boba_stores(mainframe)
     grocery_stores(mainframe)
     create_categorical_dfs(mainframe, current_categories(mainframe))
+    print(f'Total Credit Payment is {identifying_payments(mainframe)-5000}')
     
     
     
