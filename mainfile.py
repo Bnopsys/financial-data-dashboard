@@ -71,7 +71,7 @@ def grocery_stores(df):
     since theyre considered as merchandise initially.
     Put this function before create_categorical_dfs to organize before printing to terminal.
     """
-    grocery_list = ['Tokyo Central', 'Costco', 'Target', 
+    grocery_list = ['Tokyo Central', 'Costco whse', 'Target', 
                 'WAL-MART', 'WM SUPERCENTER', 'TARGET', 
                 'MARINE MART', 'NIJIYA MARKET', 'COSTCO WHSE', 
                 'MIRAMAR MAIN']
@@ -102,6 +102,7 @@ if __name__ == '__main__':
     boba_stores(mainframe)
     grocery_stores(mainframe)
     create_categorical_dfs(mainframe, current_categories(mainframe))
+    
     
     
 

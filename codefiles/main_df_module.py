@@ -42,6 +42,7 @@ def create_categorical_dfs(df: pd.DataFrame, unique_categories: list):
         current_df: pd.DataFrame = df.loc[df['Category'] == category]
         current_df = current_df.sort_values(by=['Date'])
         print(current_df)
+        print(f'Total: {sum_debit_credit_cols(current_df)}') # comment out if you would prefer the totals to be in a separate dict
         print('')
 
 def categorical_totals(df: pd.DataFrame, unique_categories: list):
