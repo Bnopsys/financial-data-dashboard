@@ -57,15 +57,7 @@ def unique_categories_func(df):
 # insurance
 # how much we spend on liquor
 # how much we spend on fast food/resturants
-# move target, walmart, costco to groceries df
 
-# make a boba regex to pick out the boba purchases.
-# boba_identifier(mainframe)
-def boba_func(df):
-    """
-    Wrapper to the boba_identifier() function. This isn't a great way to identify boba places but it does give me some insight 
-    
-    """
 def top_five_func(df):
     return find_top_five_purchases(df)
 
@@ -73,12 +65,44 @@ def categorical_totals_func(df, unique_categories):
     # call with categorical_totals_func(mainframe, current_categories(mainframe))
     categorical_totals(df, unique_categories)
 
+def grocery_stores(df):
+    """
+    This function takes a list of different grocery stores(target, walmart, costco) and adds them to the grocery category 
+    since theyre considered as merchandise initially.
+    Put this function before create_categorical_dfs to organize before printing to terminal.
+    """
+    grocery_list = ['Tokyo Central', 'Costco', 'Target', 
+                'WAL-MART', 'WM SUPERCENTER', 'TARGET', 
+                'MARINE MART', 'NIJIYA MARKET', 'COSTCO WHSE', 
+                'MIRAMAR MAIN']
+    correcting_categories(df, shop_list=grocery_list, newloc='Groceries')
+
+def boba_stores(df):
+    """
+    This function takes a list of different boba shops(Yifang, Sharetea, Happy Lemon) and adds them to a separate category for boba.
+    Put this function before create_categorical_dfs to organize before printing to terminal.
+    """ 
+    boba_shops = [
+    "SHARETEA",
+    "MOSHI MOSHI TEA",
+    "UEP*LA CHA",
+    "TASTEA-",
+    "CHICHA SAN CHEN",
+    "HAPPY LEMON",
+    "YIFANG FRUIT TEA",
+    "ARTEAZEN HAND CRAFTED TE",
+    "BOBA LOVE",
+    "CAFE PRUVIA"]
+    correcting_categories(df, shop_list=boba_shops, newloc='Boba')
+
 if __name__ == '__main__':
     refresh_csv()
     merging_dfs(create_dfs(), folder_path)
     mainframe = retrieving_main_df()
-    # create_categorical_dfs(mainframe, current_categories(mainframe))
-    print(boba_identifier(mainframe))
+    boba_stores(mainframe)
+    grocery_stores(mainframe)
+    create_categorical_dfs(mainframe, current_categories(mainframe))
+    
     
 
     
