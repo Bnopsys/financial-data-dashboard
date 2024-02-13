@@ -13,7 +13,6 @@ def refresh_csv():
     """
     This function links to the navy fed, citi, and capital one modules and processes their data into a standard format.
     """
-
     process_navy_fed()
     process_citi()
     process_capital_one()
@@ -28,7 +27,6 @@ def create_dfs() -> list:
     company_list = get_company_list('Capital One', 'Citi', 'Navy Fed', company_dict=modified_files_dict)
     return df_list_func(company_list)
 
-
 def merging_dfs(df_list: list, folder_path):
     """
     This function takes a list of dataframes and a path to where we'll save the main dataframe file.
@@ -37,23 +35,10 @@ def merging_dfs(df_list: list, folder_path):
 
 def retrieving_main_df():
     return access_dataframe(os.path.join(folder_path, 'main_datafile.csv'))
-    
-
-def unique_categories_func(df):
-    """
-    how to call create_categorical_dfs(mainframe, current_categories(mainframe))
-    """
-    unique_categs = current_categories(df)
-    categorical_dfs = create_categorical_dfs(df, unique_categs)
-    return categorical_dfs
-    
 
 # get totals for gas money| why did we spend more than last month on gas
 # how much for maintenance cost per month or 3 months
 # tracking payment to credit and from checkings
-
-def top_five_func(df):
-    return find_top_five_purchases(df)
 
 def categorical_totals_func(df, unique_categories):
     # call with categorical_totals_func(mainframe, current_categories(mainframe))
@@ -97,7 +82,9 @@ if __name__ == '__main__':
     grocery_stores(mainframe)
     create_categorical_dfs(mainframe, current_categories(mainframe))
     print(f'Total Credit Payment is {identifying_payments(mainframe)-5000}')
-    
+    print(f'Total spending: {total_spending(mainframe)}')
+    print(avg_spending_per_cat(mainframe))
+    print(debit_stats(mainframe, 'Roderick S.'))
     
     
 
