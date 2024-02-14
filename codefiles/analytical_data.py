@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 
+
 # total spending
 def total_spending(df: pd.DataFrame):
     """
@@ -28,11 +29,9 @@ def data_stats(df: pd.DataFrame, user: str = None):
     * standard deviation of column(std)
         * helps you see how spread out the data is and can be analyzed more to try and keep purchases within a certain range
         * indicates somethings wrong if the number is not similar to previous months.
-        * TODO save std information in a dictionary of future values to help monitor larger purchases 
     * unique places shopped at(nunique)
         * if this number is less than user_purchases it means the same places have been shopped at multiple times
     * amount of times the user has swiped card
-    TODO make the user column optional so you can see everything rather than having to specify a user. or multiple users
     """
     
     if user != None:
@@ -47,13 +46,6 @@ def data_stats(df: pd.DataFrame, user: str = None):
     std_cats = pd.NamedAgg(column='Debit', aggfunc='std'), 
     n_unique = pd.NamedAgg(column='Description', aggfunc='nunique'), 
     user_purchases = pd.NamedAgg(column='User', aggfunc='count'))
-
-
-# min and max spending 
-def min_max_spending(df: pd.DataFrame, category):
-    min_amount = df.loc[df['Category'] == category].idxmin()
-    max_amount = df.loc[df['Category'] == category].idxmax()
-    return min_amount, max_amount
 
 # top N categories for spending (possibly top three?)
 def top_n_spending_cats(df: pd.DataFrame, category, n):

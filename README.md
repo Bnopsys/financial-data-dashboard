@@ -1,19 +1,24 @@
 # (WIP) Financial Dashboard Project
 
-The Financial Dashboard Project is a tool that takes my current bank/credit card transactions and analyzes the data so I can make meaningful conclusions from it. For privacy reasons, I didn't include my data with the project. <br/> 
+The Financial Dashboard Project is a tool that takes my current bank/credit card transactions and analyzes the data so I can make meaningful conclusions from it. For privacy reasons, the data isnt included with the project. <br/> 
+
 > Project Goals: 
 > 1. Learn more about Pandas and become more comfortable with it, 
 > 2. Create a budget for both myself and Reanne
 > 3. Work more with Data Visualization
 
-
+The next few sections will focus on what I've learned during this project.
 
 ## Python
-**Importing functions from Modules**
 
+**Modules** <br/>
+Working with hundreds if not thousands lines of code was getting quite overwelming so I decided to break up the code into different modules.
 
+**Using Init Files to Manage Modules** <br/>
+The trouble with modules is that since everything's split it needs to be connected together afterwards to work correctly. Thats why I had to start using `__init__.py` files. These magic files allow you to handle all of your importing rather than having 10+ different module imports in the main file. Also you can use the `__all__` variable to specify which functions you want to import with `from {module} import *` method.
 
 ## Pandas
+
 **Converting to Datetime** <br/>
 By using the following code you can convert your date column to datetime and also convert to days. For what I need dates for, having the time isn't very relavant.
 
@@ -55,43 +60,46 @@ I added list comprehension to the merge_financial_csvs() so that instead of crea
 ### Graphs/Charts
 
 
-# TODO:
-* get reerees data(navy fed data)
+# Organized TODO List:
+1. Finish with gathering data
+    * Total expenses vs income
+    * High Charges regardless on category
+    * Track where money leaves checkings and goes to different credit accounts. Maybe have it split the total money left checkings and then show where the money goes to based on different accounts. Then connect it in the visualization step to show lines connecting one side to the other.(mind map style)
+    * start using data intelligently. Make connections from data so i can set baselines.(standard deviation)
+    * get data on most shopped places
+    * get correlation data
+    * Use Numpy in analytical data file
+2. Take data provided by `analytical_data.py` and start making viualizations from it.
+    * Expense Distrobution pie chart
+    * (the vertical scatterplot to show frequency of purchases based on category)
+    * Sankey Chart using code
+    * look up how i can use scatterplots with regression lines, bar charts and stacked bar charts
+3. Make a place to put these visuals. Find some way to display data along with charts to present information clearly.
+    * Websites? 
+    * Excel File? 
+    * PDF? 
+4. Make a budget based on data. Show budget values vs actual per month with the ability to modify the preset budget.
+5. Implament API's from the different providers to automate the gathering of the data.
+6. Documentation Folder to explain the structure. 
+    * main file with modules to organize similar code functions. 
+    * main file is a top down view that should have minimal function and just perform function calls referenced from other files. 
 
-> [x] pull/clean data
->
->>    [x] Citi
->>
->>    [x] NavyFed
->>
->>    [x] Capital One
->
-> [x] Make sure all of the dates are set to datetime and also use .dt.date !!!
->
-> [x] Combine all data into one dataframe
->
-> [ ] Visualize/Interpret Data
->
->>    [ ] Charts/Graphs
->>
->>    [ ] Show total income vs expenses
->>
->>    [ ] Categorize data
->>
->>    [ ] High Charges (200+)
->
-> [ ] Make a regex to identify citi/capitalone/navy fed
->
-> [ ] Look up decorators, functools
->
-> [ ] Visual Class
-> 
-> [ ] Data Class
->
-> [ ] Use an API instead of pulling data
-> 
-> [ ] For larger scale using a dictionary is preferrable but with a small amount of data, function calls are sufficent
 
+
+
+## Random things to look into which might help project
+
+* Make a regex to identify citi/capitalone/navy fed
+* Look up decorators, functools
+* Visual Class
+* Data Class
+* For larger scale using a dictionary is preferrable but with a small amount of data, function calls are sufficent
+* Figure out if I can bug test at a lower level than the mainfile. 
+    * make a testing file/folder<br/>
+    
 ---Data Drop Folder/Config File-------------------
 * make a datadrop folder and when I run the final code it takes the current month with the first 
 date of data to the last date for the folder name where all the output is saved
+
+
+
