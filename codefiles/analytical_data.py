@@ -16,7 +16,7 @@ def avg_spending_per_cat(df: pd.DataFrame):
     return df.groupby('Category')['Debit'].mean()
 
 # debit stats
-def debit_stats(df: pd.DataFrame, user: str):
+def data_stats(df: pd.DataFrame, user: str = None):
     """
     This function returns the following categories in table format so it can be used to make visualizations off of:
     * average spending(mean)
@@ -34,18 +34,20 @@ def debit_stats(df: pd.DataFrame, user: str):
     * amount of times the user has swiped card
     TODO make the user column optional so you can see everything rather than having to specify a user. or multiple users
     """
-    df_user = df.loc[df['User'] == user]
-    return df_user.groupby('Category').agg(
-        avg_spending = pd.NamedAgg(column='Debit', aggfunc='mean'),
-        total_spend = pd.NamedAgg(column='Debit', aggfunc='sum'), 
-        debit_max = pd.NamedAgg(column='Debit', aggfunc='max'), 
-        debit_min = pd.NamedAgg(column='Debit', aggfunc='min'), 
-        credit_max = pd.NamedAgg(column='Credit', aggfunc='max'), 
-        credit_min = pd.NamedAgg(column='Credit', aggfunc='min'), 
-        std_cats = pd.NamedAgg(column='Debit', aggfunc='std'), 
-        n_unique = pd.NamedAgg(column='Description', aggfunc='nunique'), 
-        user_purchases = pd.NamedAgg(column='User', aggfunc='count')
-    )
+    
+    if user != None:
+        df = df.loc[df['User'] == user]
+
+    return df.groupby('Category').agg(avg_spending = pd.NamedAgg(column='Debit', aggfunc='mean'), 
+    total_spend = pd.NamedAgg(column='Debit', aggfunc='sum'), 
+    debit_max = pd.NamedAgg(column='Debit', aggfunc='max'), 
+    debit_min = pd.NamedAgg(column='Debit', aggfunc='min'), 
+    credit_max = pd.NamedAgg(column='Credit', aggfunc='max'), 
+    credit_min = pd.NamedAgg(column='Credit', aggfunc='min'), 
+    std_cats = pd.NamedAgg(column='Debit', aggfunc='std'), 
+    n_unique = pd.NamedAgg(column='Description', aggfunc='nunique'), 
+    user_purchases = pd.NamedAgg(column='User', aggfunc='count'))
+
 
 # min and max spending 
 def min_max_spending(df: pd.DataFrame, category):
