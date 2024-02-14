@@ -82,10 +82,8 @@ if __name__ == '__main__':
     grocery_stores(mainframe)
     create_categorical_dfs(mainframe, current_categories(mainframe))
     print(f'Total Credit Payment is {identifying_payments(mainframe)-5000}')
-    print(f'Total spending: {total_spending(mainframe)}')
-    print(avg_spending_per_cat(mainframe))
-    print(data_stats(mainframe, 'Roderick S.'))
-
+    print(data_stats(mainframe))
+    print(find_top_five_purchases(mainframe))
     
 
     
