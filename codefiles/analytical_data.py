@@ -1,20 +1,17 @@
 import pandas as pd
 import numpy as np
 
-
-# total spending
-def total_spending(df: pd.DataFrame):
+def filter_credit_cats(df: pd.DataFrame):
     """
-    This function gets the sum of the entire debit column. 
+    This function filters out the below categories since they focus on credit charges.
     
     **Currently omitting Payment/FromCheckings, Savings, Paychecks/Salary, and Deposits categories** 
     """
-    modified_df = df.loc[(df['Category'] != 'Payment/FromCheckings') & (df['Category'] != 'Savings') & (df['Category'] != 'Paychecks/Salary') & (df['Category'] != 'Deposits')]
-    return modified_df['Debit'].sum()
-
-# avg spending per category
-def avg_spending_per_cat(df: pd.DataFrame):
-    return df.groupby('Category')['Debit'].mean()
+    modified_df = df.loc[(df['Category'] != 'Payment/FromCheckings') & 
+                         (df['Category'] != 'Savings') & 
+                         (df['Category'] != 'Paychecks/Salary') & 
+                         (df['Category'] != 'Deposits')]
+    return modified_df
 
 # debit stats
 def data_stats(df: pd.DataFrame, user: str = None):
@@ -51,13 +48,6 @@ def data_stats(df: pd.DataFrame, user: str = None):
 def top_n_spending_cats(df: pd.DataFrame, category, n):
     return df.groupby(['Category'] == category)['Debit'].sum().nlargest(n)
 
-# category expenses over time
-
-# expense distribution pie chart
-
-# monthly budget vs actuals
-
-# expense correlation between different spending categories (category and amount) using correlation matrices
 
 # saving trends over time
 
@@ -66,6 +56,6 @@ def find_top_five_purchases(df: pd.DataFrame):
     """
     This function takes the entire dataframe and removes the payment lines then returns the top five purchases.
     """
-    df = df.loc[df['Category'] != 'Payment/ToCredit']
-    df = df.sort_values(by=['Debit'], ascending=False)
-    return df.head(5)
+    df1 = filter_credit_cats(df)
+    df1 = df1.sort_values(by=['Debit'], ascending=False)
+    return df1.head(5)
