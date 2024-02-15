@@ -81,9 +81,7 @@ if __name__ == '__main__':
     boba_stores(mainframe)
     grocery_stores(mainframe)
     create_categorical_dfs(mainframe, current_categories(mainframe))
-    print(f'Total Credit Payment is {identifying_payments(mainframe)-5000}')
-    print(data_stats(mainframe))
-    print(find_top_five_purchases(mainframe))
+    print(exp_vs_income(mainframe))
     
 
     

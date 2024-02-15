@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-def filter_credit_cats(df: pd.DataFrame):
+def filter_out_credit_cats(df: pd.DataFrame):
     """
     This function filters out the below categories since they focus on credit charges.
     
@@ -45,17 +45,37 @@ def data_stats(df: pd.DataFrame, user: str = None):
     user_purchases = pd.NamedAgg(column='User', aggfunc='count'))
 
 # top N categories for spending (possibly top three?)
-def top_n_spending_cats(df: pd.DataFrame, category, n):
+def top_n_spending_cats(df: pd.DataFrame, category, n): # TODO havent worked on yet.
     return df.groupby(['Category'] == category)['Debit'].sum().nlargest(n)
-
-
-# saving trends over time
 
 # top five purchases
 def find_top_five_purchases(df: pd.DataFrame):
     """
     This function takes the entire dataframe and removes the payment lines then returns the top five purchases.
     """
-    df1 = filter_credit_cats(df)
+    df1 = filter_out_credit_cats(df)
     df1 = df1.sort_values(by=['Debit'], ascending=False)
     return df1.head(5)
+
+# total expenses vs income
+def exp_vs_income(df:pd.DataFrame):
+    """
+    # TODO this could be an issue if the dataframe doesnt have these specific columns on a given month.
+    """
+    # expenses
+    expenes_df = filter_out_credit_cats(df)
+
+    # income # TODO needs to filter out transfers fro savings. this is skewing the data.
+    """gained_income = df.loc[(df['Category'] == 'Deposits') | 
+                           (df['Category'] == 'Paychecks/Salary') | 
+                           (df['Category'] == 'Transfers')]"""
+    gained_income = df.loc[df['Table'] == 'Navy Fed']
+    gained_income = gained_income.fillna(0)
+    gained_income['Credit'] = pd.to_numeric(gained_income['Credit'], errors='coerce')
+    income_df = gained_income.loc[gained_income['Credit'] > 0]
+    total_income = income_df['Credit'].sum()
+
+def remove_transfer_from_savings_mask():
+    ...
+    # need to 
+# function dealing with savings

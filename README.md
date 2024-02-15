@@ -69,6 +69,8 @@ I added list comprehension to the merge_financial_csvs() so that instead of crea
     * get data on most shopped places
     * get correlation data
     * Use Numpy in analytical data file
+    * find all charges for citi card which werent gas or resturants(boba)
+    * saving trends over time
 2. Take data provided by `analytical_data.py` and start making viualizations from it.
     * Expense Distrobution pie chart
     * (the vertical scatterplot to show frequency of purchases based on category)
