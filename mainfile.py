@@ -34,15 +34,18 @@ def merging_dfs(df_list: list, folder_path):
     merge_dataframes(df_list, folder_path)
 
 def retrieving_main_df():
-    return access_dataframe(os.path.join(folder_path, 'main_datafile.csv'))
+    return read_data(os.path.join(folder_path, 'main_datafile.csv'))
 
-# get totals for gas money| why did we spend more than last month on gas
-# how much for maintenance cost per month or 3 months
-# tracking payment to credit and from checkings
+def categorical_totals_func(df):
+    """
+    This function prints out dataframes categorically separated by the items in the list.
 
-def categorical_totals_func(df, unique_categories):
+    This function has a dependency on the `current_categories()` function. It was a separate argument, 
+    but I found it too confusing and decided to just implement it into the function directly.
+
+    """
     # call with categorical_totals_func(mainframe, current_categories(mainframe))
-    categorical_totals(df, unique_categories)
+    categorical_totals(df, current_categories(df))
 
 def grocery_stores(df):
     """

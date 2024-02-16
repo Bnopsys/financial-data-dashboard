@@ -34,7 +34,8 @@ def data_stats(df: pd.DataFrame, user: str = None):
     if user != None:
         df = df.loc[df['User'] == user]
 
-    return df.groupby('Category').agg(avg_spending = pd.NamedAgg(column='Debit', aggfunc='mean'), 
+    return df.groupby('Category').agg(
+    avg_spending = pd.NamedAgg(column='Debit', aggfunc='mean'), 
     total_spend = pd.NamedAgg(column='Debit', aggfunc='sum'), 
     debit_max = pd.NamedAgg(column='Debit', aggfunc='max'), 
     debit_min = pd.NamedAgg(column='Debit', aggfunc='min'), 
@@ -79,3 +80,18 @@ def remove_transfer_from_savings_mask():
     ...
     # need to 
 # function dealing with savings
+
+
+def identifying_payments(df: pd.DataFrame): # TODO REFACTOR without for loop.
+    """
+    This function identifys all debit charges from the account in the category Payment/FromCheckings 
+    and gets the total to see how much was paid off this month.
+    """
+    credit_df = df.loc[df['Category'] == 'Payment/FromCheckings']
+    payment_total = 0
+    for _, row in credit_df.iterrows():
+        payment: float = row['Debit']
+        if pd.isna(payment) or payment == '':
+            continue
+        payment_total += payment
+    return payment_total

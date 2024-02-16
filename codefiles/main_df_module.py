@@ -1,14 +1,5 @@
 import pandas as pd
 import numpy as np # look more into numpy for extra data
-from codefiles.utils.utils import read_data
-
-def access_dataframe(filepath): # could be unnecessary. look into just calling read_data in function call
-    """
-    wrapper function that invokes the read_data function from utils.
-    It's only one line of code but for the sake of saving my __init__ file from importing directly from utils, this wrapper is used
-    to create an inbetween.
-    """
-    return read_data(filepath)
 
 def current_categories(df):
     """
@@ -73,16 +64,4 @@ def correcting_categories(df: pd.DataFrame, shop_list, newloc):
         mask = df['Description'].str.contains(item, case=False)
         df.loc[mask, 'Category'] = newloc
 
-def identifying_payments(df: pd.DataFrame):
-    """
-    This function identifys all debit charges from the account in the category Payment/FromCheckings 
-    and gets the total to see how much was paid off this month.
-    """
-    credit_df = df.loc[df['Category'] == 'Payment/FromCheckings']
-    payment_total = 0
-    for _, row in credit_df.iterrows():
-        payment: float = row['Debit']
-        if pd.isna(payment) or payment == '':
-            continue
-        payment_total += payment
-    return payment_total
+
