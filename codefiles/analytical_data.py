@@ -59,26 +59,40 @@ def find_top_five_purchases(df: pd.DataFrame):
     return df1.head(5)
 
 # total expenses vs income
-def exp_vs_income(df:pd.DataFrame):
-    """
-    # TODO this could be an issue if the dataframe doesnt have these specific columns on a given month.
-    """
-    # expenses
-    expenes_df = filter_out_credit_cats(df)
+def total_expenses(df:pd.DataFrame):
+    modified_df = df.loc[(df['Category'] != 'Deposits') & 
+                         (df['Category'] != 'Payment/FromCheckings') & 
+                         (df['Category'] != 'Paychecks/Salary') & 
+                         (df['Category'] != 'Savings')]
+    return modified_df['Debit'].sum()
+    
 
-    # income # TODO needs to filter out transfers fro savings. this is skewing the data.
-    """gained_income = df.loc[(df['Category'] == 'Deposits') | 
-                           (df['Category'] == 'Paychecks/Salary') | 
-                           (df['Category'] == 'Transfers')]"""
+def total_income(df: pd.DataFrame):
+    """
+    This function performs some operations so the data can be narrowed down to only income charges.
+    """
     gained_income = df.loc[df['Table'] == 'Navy Fed']
     gained_income = gained_income.fillna(0)
     gained_income['Credit'] = pd.to_numeric(gained_income['Credit'], errors='coerce')
     income_df = gained_income.loc[gained_income['Credit'] > 0]
-    total_income = income_df['Credit'].sum()
+    masked_df = remove_transfer_from_savings_mask(income_df)
+    total_income = masked_df['Credit'].sum()
+    return total_income
 
-def remove_transfer_from_savings_mask():
-    ...
-    # need to 
+def remove_transfer_from_savings_mask(df: pd.DataFrame):
+    """
+    This function uses a mask(boolean array) and checks to see which rows contain the conditional of 
+    having 'Transfer From Savings' in it. Then it preforms a `.loc` based on an inverted mask 
+    and returns that dataframe.
+
+    # TODO add to interesting stuff learned: Boolean Arrays(masks) along with inverting them to have the equivalent of 
+    does not contain.
+    """
+    mask = df['Description'].str.contains('Transfer From Savings', case=False)
+    inverted_mask = df.loc[~mask]
+    return inverted_mask
+    
+
 # function dealing with savings
 
 

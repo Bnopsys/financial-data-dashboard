@@ -62,6 +62,6 @@ def correcting_categories(df: pd.DataFrame, shop_list, newloc):
     """
     for item in shop_list:
         mask = df['Description'].str.contains(item, case=False)
-        df.loc[mask, 'Category'] = newloc
+        df.loc[mask, 'Category'] = newloc # TODO  what does this mean with the .loc/ learn all the different uses for .loc
 
 
