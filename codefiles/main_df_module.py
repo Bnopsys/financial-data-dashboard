@@ -35,14 +35,12 @@ def categorical_totals(df: pd.DataFrame, unique_categories: list):
 
 def sum_debit_credit_cols(df: pd.DataFrame) -> float: # change this to using pandas vectorized functions then delete.
     """
-    Used in the categorical_totals function to get the total debit and credit amounts per row. 
+    Gets the sum of the debit column and subtracts the credit column to display the total for the table 
     """
-    running_total = 0.0
-    for _, row in df.iterrows():
-        debit_val = convert_to_float(row['Debit'])
-        credit_val = convert_to_float(row['Credit'])
-        running_total += debit_val - credit_val
-    return running_total
+    debit_var = df['Debit'].sum()
+    credit_var = df['Credit'].sum()
+
+    return debit_var - credit_var
 
 def convert_to_float(val):
     """
