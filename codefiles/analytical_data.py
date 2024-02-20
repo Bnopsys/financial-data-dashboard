@@ -1,11 +1,10 @@
 import pandas as pd
 import numpy as np
+from collections import Counter
 
 def filter_out_credit_cats(df: pd.DataFrame):
     """
     This function filters out the below categories since they focus on credit charges.
-    
-    **Currently omitting Payment/FromCheckings, Savings, Paychecks/Salary, and Deposits categories** 
     """
     modified_df = df.loc[(df['Category'] != 'Payment/FromCheckings') & 
                          (df['Category'] != 'Savings') & 
@@ -30,7 +29,7 @@ def data_stats(df: pd.DataFrame, user: str = None):
         * if this number is less than user_purchases it means the same places have been shopped at multiple times
     * amount of times the user has swiped card
     """
-    
+    # TODO I could add an extra parameter to filter based on time so I could specify a start and end data to see different data
     if user != None:
         df = df.loc[df['User'] == user]
 
@@ -58,16 +57,14 @@ def find_top_five_purchases(df: pd.DataFrame):
     df1 = df1.sort_values(by=['Debit'], ascending=False)
     return df1.head(5)
 
-# total expenses vs income
-def total_expenses(df:pd.DataFrame):
+def total_expenses(df:pd.DataFrame) -> float:
     modified_df = df.loc[(df['Category'] != 'Deposits') & 
                          (df['Category'] != 'Payment/FromCheckings') & 
                          (df['Category'] != 'Paychecks/Salary') & 
                          (df['Category'] != 'Savings')]
     return modified_df['Debit'].sum()
-    
 
-def total_income(df: pd.DataFrame):
+def total_income(df: pd.DataFrame) -> float:
     """
     This function performs some operations so the data can be narrowed down to only income charges.
     """
@@ -109,3 +106,23 @@ def identifying_payments(df: pd.DataFrame): # TODO REFACTOR without for loop.
             continue
         payment_total += payment
     return payment_total
+
+def tracking_payments(df: pd.DataFrame):
+    df = df.loc[df['Category'] == 'Payment/FromCheckings'].fillna(0)
+    df = df.sort_values(by='Date')
+    debit_list = df['Debit']
+    credit_list = df['Credit']
+    masked_debit = debit_list[df['Debit'] > 0]
+    masked_credit = credit_list[df['Credit'] > 0]
+
+    counter_credit = Counter(masked_credit)
+    counter_debit = Counter(masked_debit)
+
+    trans_dict = {'Roderick S.': 0, 'Reanne C.': 0}
+    for transaction in counter_credit.elements():
+        if transaction in counter_debit and counter_debit[transaction] > 0:
+            trans_dict['Roderick S.'] += transaction
+            counter_debit[transaction] -= 1
+        else:
+            trans_dict['Reanne C.'] += transaction
+    print(trans_dict)

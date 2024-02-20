@@ -84,6 +84,5 @@ if __name__ == '__main__':
     boba_stores(mainframe)
     grocery_stores(mainframe)
     create_categorical_dfs(mainframe, current_categories(mainframe))
-    print(total_expenses(mainframe))
-
-    
+    tracking_payments(mainframe)
+    print(data_stats(mainframe))
