@@ -12,7 +12,6 @@ def filter_out_credit_cats(df: pd.DataFrame):
                          (df['Category'] != 'Deposits')]
     return modified_df
 
-# debit stats
 def data_stats(df: pd.DataFrame, user: str = None):
     """
     This function returns the following categories in table format so it can be used to make visualizations off of:
@@ -48,7 +47,6 @@ def data_stats(df: pd.DataFrame, user: str = None):
 def top_n_spending_cats(df: pd.DataFrame, category, n): # TODO havent worked on yet.
     return df.groupby(['Category'] == category)['Debit'].sum().nlargest(n)
 
-# top five purchases
 def find_top_five_purchases(df: pd.DataFrame):
     """
     This function takes the entire dataframe and removes the payment lines then returns the top five purchases.
@@ -126,3 +124,29 @@ def tracking_payments(df: pd.DataFrame):
         else:
             trans_dict['Reanne C.'] += transaction
     print(trans_dict)
+
+def categorical_describe(df: pd.DataFrame, category):
+    """
+    Uses the built in pandas describe function to get more information on the standard deviation of a column.
+    """
+    df_method = df.loc[df['Category'] == category]['Debit'].fillna(0)
+    describe_method = df_method.describe()
+    outliers = identifying_outliers(describe_method)
+    for row in df_method:
+        debit_val = row
+        confirm_not_outlier(debit_val, outliers)
+
+def identifying_outliers(describe_method):
+    q1 = describe_method.loc['25%']
+    q3 = describe_method.loc['75%']
+    outliers =  (q1 - (1.5 * (q3 - q1)), 
+                 q3 + (1.5 * (q3 - q1)))
+    return outliers
+
+def confirm_not_outlier(debit_val, outliers):
+    if not outliers[0] <= debit_val <= outliers[1]:
+        print(f'Outlier: {debit_val}')
+
+def iqr_quartiles(df:pd.DataFrame, category): # TODO look into since this might be useless
+    quartiles = df[df['Category'] == category]['Debit'].quantile([0.25, 0.5, 0.75])
+    iqr = quartiles.loc[:, 0.75] - quartiles.loc[:, 0.25]

@@ -86,3 +86,4 @@ if __name__ == '__main__':
     create_categorical_dfs(mainframe, current_categories(mainframe))
     tracking_payments(mainframe)
     print(data_stats(mainframe))
+    categorical_describe(mainframe, 'Misc')
