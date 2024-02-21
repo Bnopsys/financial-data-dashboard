@@ -12,7 +12,7 @@ def filter_out_credit_cats(df: pd.DataFrame):
                          (df['Category'] != 'Deposits')]
     return modified_df
 
-def data_stats(df: pd.DataFrame, user: str = None):
+def data_stats(df: pd.DataFrame, user: str = None, date: str = None|str):
     """
     This function returns the following categories in table format so it can be used to make visualizations off of:
     * average spending(mean)
@@ -32,6 +32,20 @@ def data_stats(df: pd.DataFrame, user: str = None):
     if user != None:
         df = df.loc[df['User'] == user]
 
+    if date == 'MonthToDate':
+        df['Date'] = pd.to_datetime(df['Date'])
+        start_date, end_date = date_range_from_today()
+        mask = (df['Date'] <= end_date) & (df['Date'] >= start_date)
+        df = df.loc[mask]
+    
+    if date == 'PastMonth':
+        df['Date'] = pd.to_datetime(df['Date'])
+        _, todays_date = date_range_from_today()
+        end_date = todays_date + pd.offsets.MonthEnd(0) - pd.offsets.MonthBegin(1)
+        start_date = end_date - pd.DateOffset(month=1)
+        mask = (df['Date'] >= start_date) & (df['Date'] <= end_date)
+        df = df.loc[mask]
+
     return df.groupby('Category').agg(
     avg_spending = pd.NamedAgg(column='Debit', aggfunc='mean'), 
     total_spend = pd.NamedAgg(column='Debit', aggfunc='sum'), 
@@ -42,10 +56,6 @@ def data_stats(df: pd.DataFrame, user: str = None):
     std_cats = pd.NamedAgg(column='Debit', aggfunc='std'), 
     n_unique = pd.NamedAgg(column='Description', aggfunc='nunique'), 
     user_purchases = pd.NamedAgg(column='User', aggfunc='count'))
-
-# top N categories for spending (possibly top three?)
-def top_n_spending_cats(df: pd.DataFrame, category, n): # TODO havent worked on yet.
-    return df.groupby(['Category'] == category)['Debit'].sum().nlargest(n)
 
 def find_top_five_purchases(df: pd.DataFrame):
     """
@@ -105,7 +115,7 @@ def identifying_payments(df: pd.DataFrame): # TODO REFACTOR without for loop.
         payment_total += payment
     return payment_total
 
-def tracking_payments(df: pd.DataFrame):
+def tracking_payments(df: pd.DataFrame):# refactor to decouple
     df = df.loc[df['Category'] == 'Payment/FromCheckings'].fillna(0)
     df = df.sort_values(by='Date')
     debit_list = df['Debit']
@@ -147,6 +157,17 @@ def confirm_not_outlier(debit_val, outliers):
     if not outliers[0] <= debit_val <= outliers[1]:
         print(f'Outlier: {debit_val}')
 
-def iqr_quartiles(df:pd.DataFrame, category): # TODO look into since this might be useless
-    quartiles = df[df['Category'] == category]['Debit'].quantile([0.25, 0.5, 0.75])
-    iqr = quartiles.loc[:, 0.75] - quartiles.loc[:, 0.25]
+def budget_deviation(series: pd.Series, budget_dict: dict, date=None):#Use this function to compare total spend series to budget dict to find where theres deviation.
+    budget_series = pd.Series(budget_dict)
+    print(budget_dict)
+
+def date_range_from_today():
+    """
+    .strftime('%m/%d/%Y') for converting to my preferred format
+    """
+    todays_date = pd.to_datetime('now')
+    month_prior = todays_date - pd.DateOffset(month=1)
+    return month_prior, todays_date
+
+if __name__ == '__main__':
+    ...

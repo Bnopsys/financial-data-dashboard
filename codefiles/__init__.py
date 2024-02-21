@@ -13,5 +13,5 @@ __all__ = ['process_navy_fed', 'process_citi',
            'current_categories', 'total_income', 'total_expenses', 
            'create_categorical_dfs', 'find_top_five_purchases', 
            'categorical_totals', 'correcting_categories', 
-           'top_n_spending_cats', 'data_stats',
-           'identifying_payments', 'read_data', 'tracking_payments', 'categorical_describe']
+           'data_stats', 'identifying_payments', 'read_data', 
+           'tracking_payments', 'categorical_describe', 'budget_deviation']

@@ -9,6 +9,13 @@ modified_files_dict = {'Capital One': os.path.join(folder_path, 'func_data_files
                        'Citi': os.path.join(folder_path, 'func_data_files', 'citi_data.csv'), 
                        'Navy Fed': os.path.join(folder_path, 'func_data_files', 'navyfed_data.csv')}
 
+budget_rough = {'Transportation': 400, 
+                'Misc': 350, 
+                'Groceries': 1100, 
+                'Insurance': 500, 
+                'Restaurants': 400, 
+                'Boba': 150}
+
 def refresh_csv():
     """
     This function links to the navy fed, citi, and capital one modules and processes their data into a standard format.
@@ -77,6 +84,7 @@ def boba_stores(df):
     "CAFE PRUVIA"]
     correcting_categories(df, shop_list=boba_shops, newloc='Boba')
 
+
 if __name__ == '__main__':
     refresh_csv()
     merging_dfs(create_dfs(), folder_path)
@@ -85,5 +93,6 @@ if __name__ == '__main__':
     grocery_stores(mainframe)
     create_categorical_dfs(mainframe, current_categories(mainframe))
     tracking_payments(mainframe)
-    print(data_stats(mainframe))
-    categorical_describe(mainframe, 'Misc')
+    
+    categs_table = data_stats(mainframe, date='PastMonth')
+    print(categs_table['total_spend'])
