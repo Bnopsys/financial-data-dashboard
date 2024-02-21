@@ -14,7 +14,8 @@ budget_rough = {'Transportation': 400,
                 'Groceries': 1100, 
                 'Insurance': 500, 
                 'Restaurants': 400, 
-                'Boba': 150}
+                'Boba': 150, 
+                'Savings': 700}
 
 def refresh_csv():
     """
@@ -95,4 +96,4 @@ if __name__ == '__main__':
     tracking_payments(mainframe)
     
     categs_table = data_stats(mainframe, date='PastMonth')
-    print(categs_table['total_spend'])
+    budget_deviation(categs_table['total_spend'], budget_rough)

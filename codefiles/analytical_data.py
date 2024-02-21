@@ -158,8 +158,14 @@ def confirm_not_outlier(debit_val, outliers):
         print(f'Outlier: {debit_val}')
 
 def budget_deviation(series: pd.Series, budget_dict: dict, date=None):#Use this function to compare total spend series to budget dict to find where theres deviation.
-    budget_series = pd.Series(budget_dict)
-    print(budget_dict)
+    """
+    To access this function for the input you need to take the data_stats function and 
+    use the 'total_spend' column as the series input.
+    """
+    deviation = {}
+    for category, value in series.items():
+        deviation[category] = budget_dict.get(category, 0) - value
+    print(deviation)
 
 def date_range_from_today():
     """
