@@ -2,6 +2,7 @@ from codefiles import *
 import os
 
 
+
 # move other files into an __init__ file later so i can import as * 
 folder_path = '/Users/roddystones/Documents/datafiles'
 
@@ -96,4 +97,8 @@ if __name__ == '__main__':
     tracking_payments(mainframe)
     
     categs_table = data_stats(mainframe, date='PastMonth')
-    budget_deviation(categs_table['total_spend'], budget_rough)
+    deviation = budget_deviation(categs_table['total_spend'], budget_rough)
+    print(deviation)
+    print('a')
+    categorical_describe(mainframe, 'Groceries')
+    # take the categorical list and remove outliers based on individual categorical outlier data and move to a new list
