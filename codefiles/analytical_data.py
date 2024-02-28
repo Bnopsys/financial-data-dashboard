@@ -129,45 +129,41 @@ def tracking_payments(df: pd.DataFrame):# refactor to decouple
             counter_debit[transaction] -= 1
         else:
             trans_dict['Reanne C.'] += transaction
-    print(trans_dict)
+    return trans_dict
 
 def categorical_describe(df: pd.DataFrame, category):
     """
     Uses the built in pandas describe function to get more information on the standard deviation of a column.
     """
-    df_method = df.loc[df['Category'] == category]['Debit'].fillna(0)
-    print(df_method)
-    describe_method = df_method.describe()
-    outliers = identifying_outliers(describe_method)
-    outliers_df = pd.DataFrame(columns = df.columns)
+    df_method, describe_method = get_df_describe(df, category)
+    outliers = identifying_outlier_range(describe_method)
+    outliers_df = pd.DataFrame(columns = df.columns) # placeholder df until counter goes above 0
+    outlier_counter = 0
 
     for row_index, row in df_method.items():
         debit_val = row
         
         if confirm_not_outlier(debit_val, outliers):
-            print(row_index, debit_val)
             outlier_df = row_outlier_df(df, row_index=row_index)
-            outliers_df = pd.concat([])
+            outliers_df = identifying_outliers_df_before_concat(outlier_df, outliers_df, outlier_counter)
+            outlier_counter += 1
     return df, outliers_df
 
-def identifying_outliers(describe_method):
-    q1 = describe_method.loc['25%']
-    q3 = describe_method.loc['75%']
+def get_df_describe(df: pd.DataFrame, category):
+    df_method = df.loc[df['Category'] == category]['Debit'].fillna(0)
+    return df_method, df_method.describe()
+
+def identifying_outlier_range(describe_method):
+    q1 = describe_method.at['25%']
+    q3 = describe_method.at['75%'] 
     outliers =  (q1 - (1.5 * (q3 - q1)), 
                  q3 + (1.5 * (q3 - q1)))
     return outliers
 
 def confirm_not_outlier(debit_val, outliers):
     if not outliers[0] <= debit_val <= outliers[1]:
-        print(f'Outlier: {debit_val}')
         return True
     return False
-
-def move_outliers_to_df(df: pd.DataFrame, outliers_df: pd.DataFrame, row_index):
-    outlier_row = df.loc[row_index]
-    outlier_df = pd.DataFrame([outlier_row])
-    df.drop(index=row_index, inplace=True)
-    return pd.concat([outliers_df, outlier_df])
 
 def row_outlier_df(df: pd.DataFrame, row_index):
     outlier_row = df.loc[row_index]
@@ -175,6 +171,16 @@ def row_outlier_df(df: pd.DataFrame, row_index):
 
 def remove_outlier_from_df(df: pd.DataFrame, row_index):
     return df.drop(index=row_index, inplace=True)
+
+def identifying_outliers_df_before_concat(df:pd.DataFrame, outliers_df: pd.DataFrame, counter):
+    if counter == 0:
+        return df
+    
+    elif counter > 0:
+        return pd.concat([outliers_df, df])
+    
+    else:
+        raise Exception('Out of bounds Counter')
 
 def budget_deviation(series: pd.Series, budget_dict: dict, date=None):#Use this function to compare total spend series to budget dict to find where theres deviation.
     """

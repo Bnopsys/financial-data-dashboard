@@ -98,7 +98,6 @@ if __name__ == '__main__':
     
     categs_table = data_stats(mainframe, date='PastMonth')
     deviation = budget_deviation(categs_table['total_spend'], budget_rough)
-    print(deviation)
-    print('a')
-    categorical_describe(mainframe, 'Groceries')
-    # take the categorical list and remove outliers based on individual categorical outlier data and move to a new list
+    mainframe, outliers_df = categorical_describe(mainframe, 'Groceries')
+    print(outliers_df)
+    # make a for loop or comprehension for the categorical describe to go over all categories.
