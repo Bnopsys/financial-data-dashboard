@@ -1,6 +1,52 @@
 import pandas as pd
 import numpy as np # look more into numpy for extra data
 
+class Maindf:
+    def __init__(self, df: pd.DataFrame, mainpath: str) -> None:
+        self.data = df
+        self.filepath = mainpath
+
+    def current_categories_dict(self):
+        """
+        This function drops duplicates from the 'Category' Column and then uses this as a list in a dictionary composition to return 
+        {Key='Category': Value='Dataframe of Category'}
+        """
+        unique_categories = list(self.data['Category'].drop_duplicates())
+        return {category: self.data[(self.data['Category'] == category)] for category in unique_categories}
+
+    def sort_dfs(self, categs_dict):
+        return {category: df.sort_values(by=['Date']) for category, df in categs_dict}
+
+    def create_excel(self, categs_dict):
+        """
+        This takes the categories_dict and turns it into an excel sheet to see all data.
+        TODO make an extra sheet which has data like averages, totals and other metrics.
+        TODO look up if its good practice to use except Exception as e.
+        """
+        try:
+            with pd.ExcelWriter(self.filepath) as writer:
+                for sheetname, df in categs_dict.items():
+                    df = pd.DataFrame(df)
+                    df.to_excel(writer, sheet_name=sheetname, index=False)
+        
+        except Exception as e:
+            print(e)
+
+    def totals_per_cat(self, categs_dict):
+        totals_dict = {}
+        for category, df in categs_dict.items():
+            debit_var = df['Debit'].sum()
+            credit_var = df['Credit'].sum()
+            totals_dict[category] = debit_var - credit_var
+
+        return totals_dict
+
+    def run(self):
+        """
+        Public method to run everything. Its job is to combine the differnt methods together and run everything in the correct order rather than chaining different events.
+        """
+
+    
 def current_categories(df):
     """
     This function drops duplicates in category column of dataframe and returns the list. This is used to create dataframes based on all categories.
@@ -11,6 +57,7 @@ def current_categories(df):
 def create_categorical_dfs(df: pd.DataFrame, unique_categories: list):
     """
     this returns a list of dataframes that we can iterate over based on category.
+    TODO make this into an excel file with different excel sheets (name is {category})
     """
     for category in unique_categories:
         print(f'{category} Dataframe')
@@ -42,17 +89,6 @@ def sum_debit_credit_cols(df: pd.DataFrame) -> float: # change this to using pan
 
     return debit_var - credit_var
 
-def convert_to_float(val):
-    """
-    Simple function the does some validation then returns the value as a float for calculation in the sum_debit_credit_cols function.
-    """
-    if pd.isna(val) or val == '':
-        return 0.0
-    try:
-        return float(val)
-    except ValueError:
-        return 0.0
-
 def correcting_categories(df: pd.DataFrame, shop_list, newloc):
     """
     This function takes the dataframe, a list of stores and a new category to put them into to move the category of all items 
@@ -63,3 +99,41 @@ def correcting_categories(df: pd.DataFrame, shop_list, newloc):
         df.loc[mask, 'Category'] = newloc # TODO  what does this mean with the .loc/ learn all the different uses for .loc
 
 
+class MainfileProj:
+    def __init__(self):
+        ...
+    # refresh csvs
+    def refresh_csvs(self):
+        ...
+        # add process_{bank_acc}()s
+
+    # create dfs
+    def create_dfs(self):
+        ...
+        # make a list of companies, validate, then return files for each company
+        # list comprehension changing files to dataframes for each company
+
+    # merge dfs
+    def merge_dfs(self):
+        ...
+        # use the dataframes list from create_dfs and merge them into one
+
+    # get main df
+    def main_df(self):
+        ...
+        # read_data for maindata file
+
+    # rename/move purchases based on category(boba, grocery stores)
+    def move_purchases(self):
+        ...
+        # take the grocery and boba lists aand correcting_categories for them
+
+if __name__ == "__main__":
+    mainfile = '/Users/roddystones/Documents/datafiles/main_datafile.csv'
+    exportpath = '/Users/roddystones/Documents/datafiles/main_df_test.xlsx'
+
+    df = pd.read_csv(mainfile)
+    
+    # using class
+    main_df_tsting = Maindf(df, exportpath)
+    print(main_df_tsting.current_categories_dict())

@@ -200,5 +200,10 @@ def date_range_from_today():
     month_prior = todays_date - pd.DateOffset(month=1)
     return month_prior, todays_date
 
+# ------------------------------------------------------------
+# All in one functions
+# ------------------------------------------------------------
+
+
 if __name__ == '__main__':
     ...
