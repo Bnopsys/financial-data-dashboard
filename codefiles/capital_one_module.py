@@ -9,7 +9,7 @@ card_users = {9623: 'Reanne C.',
 
 default_categories_cof = {'Other Services': 'Misc', 
                       'Merchandise': 'Misc', 
-                      'Payment/Credit': 'Payment/FromCheckings', 
+                      'Payment/Credit': 'PaymentFromCheckings', 
                       'Dining': 'Restaurants', 
                       'Gas/Automotive': 'Transportation', 
                       'Insurance': 'Insurance', 

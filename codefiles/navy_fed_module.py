@@ -7,12 +7,12 @@ visa_credit_file = os.path.join(path_of_data_folder, 'NavyFedCredit.csv')
 
 default_categories_navyfed = {'Restaurants/Dining': 'Restaurants', 
                       'Groceries': 'Groceries', 
-                      'Credit Card Payments': 'Payment/FromCheckings', 
+                      'Credit Card Payments': 'PaymentFromCheckings', 
                       'General Merchandise': 'Misc', 
                       'Transfers': 'Transfers', 
                       'Automotive Expenses': 'Misc', 
                       'Savings': 'Savings', 
-                      'Paychecks/Salary': 'Paychecks/Salary', 
+                      'Paychecks/Salary': 'Salary', 
                       'Deposits': 'Deposits', 
                       'Interest': 'Misc'}
 

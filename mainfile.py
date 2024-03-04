@@ -101,3 +101,8 @@ if __name__ == '__main__':
     mainframe, outliers_df = categorical_describe(mainframe, 'Groceries')
     print(outliers_df)
     # make a for loop or comprehension for the categorical describe to go over all categories.
+
+    """
+    Transfer code from main_df_module thats used here to the class format.
+    
+    """

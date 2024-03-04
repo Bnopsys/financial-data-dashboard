@@ -5,7 +5,7 @@ path_of_data_folder = '/Users/roddystones/Documents/datafiles'
 debit_file = os.path.join(path_of_data_folder, 'CitiDebit.csv')
 credit_file = os.path.join(path_of_data_folder, 'CitiCredit.csv')
 
-default_categories_citi = {'Payment/FromCheckings': 'Payment/FromCheckings', 
+default_categories_citi = {'Payment/FromCheckings': 'PaymentFromCheckings', 
                       'Restaurants': 'Restaurants', 
                       'Vehicle Services': 'Transportation', 
                       'Merchandise': 'Misc', 

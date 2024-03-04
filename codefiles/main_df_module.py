@@ -1,10 +1,13 @@
 import pandas as pd
 import numpy as np # look more into numpy for extra data
+from codefiles.data_assist import boba_shops, grocery_list
 
 class Maindf:
+
     def __init__(self, df: pd.DataFrame, mainpath: str) -> None:
         self.data = df
         self.filepath = mainpath
+
 
     def current_categories_dict(self):
         """
@@ -14,8 +17,13 @@ class Maindf:
         unique_categories = list(self.data['Category'].drop_duplicates())
         return {category: self.data[(self.data['Category'] == category)] for category in unique_categories}
 
-    def sort_dfs(self, categs_dict):
-        return {category: df.sort_values(by=['Date']) for category, df in categs_dict}
+
+    def sort_dfs(self, categs_dict: dict):
+        """
+        TODO rather than returning a dict, this should just modify self.data so its only function is to sort the data.
+        """
+        return {category: df.sort_values(by=['Date']) for category, df in categs_dict.items()} # takes more than two values
+
 
     def create_excel(self, categs_dict):
         """
@@ -32,6 +40,7 @@ class Maindf:
         except Exception as e:
             print(e)
 
+
     def totals_per_cat(self, categs_dict):
         totals_dict = {}
         for category, df in categs_dict.items():
@@ -39,12 +48,34 @@ class Maindf:
             credit_var = df['Credit'].sum()
             totals_dict[category] = debit_var - credit_var
 
-        return totals_dict
+        return pd.DataFrame(list(totals_dict.items()), columns=['Category', 'Total'])
+
+
+    def correcting_categories(self, shop_list: list, newloc: str):
+        for item in shop_list:
+            mask = self.data['Description'].str.contains(item, case=False)
+            self.data.loc[mask, 'Category'] = newloc # TODO  what does this mean with the .loc/ learn all the different uses for .loc
+
 
     def run(self):
         """
         Public method to run everything. Its job is to combine the differnt methods together and run everything in the correct order rather than chaining different events.
         """
+        # correct categories
+        dict_of_cats_to_correct = {'Boba':boba_shops, 'Groceries': grocery_list}
+        for category, shoplist in dict_of_cats_to_correct.items():
+            self.correcting_categories(shop_list=shoplist, newloc=category)
+
+        # get dict
+        categories_dict = self.current_categories_dict()
+        
+        # sort categories
+        categories_dict = self.sort_dfs(categories_dict)
+
+        # add totals 
+        categories_dict['Total'] = self.totals_per_cat(categories_dict)
+        # export to excel
+        self.create_excel(categories_dict)
 
     
 def current_categories(df):
@@ -136,4 +167,4 @@ if __name__ == "__main__":
     
     # using class
     main_df_tsting = Maindf(df, exportpath)
-    print(main_df_tsting.current_categories_dict())
+    main_df_tsting.run()

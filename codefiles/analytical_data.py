@@ -6,9 +6,9 @@ def filter_out_credit_cats(df: pd.DataFrame):
     """
     This function filters out the below categories since they focus on credit charges.
     """
-    modified_df = df.loc[(df['Category'] != 'Payment/FromCheckings') & 
+    modified_df = df.loc[(df['Category'] != 'PaymentFromCheckings') & 
                          (df['Category'] != 'Savings') & 
-                         (df['Category'] != 'Paychecks/Salary') & 
+                         (df['Category'] != 'Salary') & 
                          (df['Category'] != 'Deposits')]
     return modified_df
 
@@ -67,8 +67,8 @@ def find_top_five_purchases(df: pd.DataFrame):
 
 def total_expenses(df:pd.DataFrame) -> float:
     modified_df = df.loc[(df['Category'] != 'Deposits') & 
-                         (df['Category'] != 'Payment/FromCheckings') & 
-                         (df['Category'] != 'Paychecks/Salary') & 
+                         (df['Category'] != 'PaymentFromCheckings') & 
+                         (df['Category'] != 'Salary') & 
                          (df['Category'] != 'Savings')]
     return modified_df['Debit'].sum()
 
@@ -99,10 +99,10 @@ def remove_transfer_from_savings_mask(df: pd.DataFrame):
     
 def identifying_payments(df: pd.DataFrame): # TODO REFACTOR without for loop.
     """
-    This function identifys all debit charges from the account in the category Payment/FromCheckings 
+    This function identifys all debit charges from the account in the category PaymentFromCheckings 
     and gets the total to see how much was paid off this month.
     """
-    credit_df = df.loc[df['Category'] == 'Payment/FromCheckings']
+    credit_df = df.loc[df['Category'] == 'PaymentFromCheckings']
     payment_total = 0
     for _, row in credit_df.iterrows():
         payment: float = row['Debit']
@@ -112,7 +112,7 @@ def identifying_payments(df: pd.DataFrame): # TODO REFACTOR without for loop.
     return payment_total
 
 def tracking_payments(df: pd.DataFrame):# refactor to decouple
-    df = df.loc[df['Category'] == 'Payment/FromCheckings'].fillna(0)
+    df = df.loc[df['Category'] == 'PaymentFromCheckings'].fillna(0)
     df = df.sort_values(by='Date')
     debit_list = df['Debit']
     credit_list = df['Credit']
