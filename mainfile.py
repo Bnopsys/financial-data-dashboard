@@ -6,6 +6,7 @@ import os
 # move other files into an __init__ file later so i can import as * 
 folder_path = '/Users/roddystones/Documents/datafiles'
 
+# TODO move this to a different file as mainfile doesnt need to know about file locations.
 modified_files_dict = {'Capital One': os.path.join(folder_path, 'func_data_files', 'capital_one_data.csv'), 
                        'Citi': os.path.join(folder_path, 'func_data_files', 'citi_data.csv'), 
                        'Navy Fed': os.path.join(folder_path, 'func_data_files', 'navyfed_data.csv')}
@@ -88,11 +89,28 @@ def boba_stores(df):
 
 
 if __name__ == '__main__':
+    # refresh csv files
     refresh_csv()
-    merging_dfs(create_dfs(), folder_path)
+
+    # create dataframes from refreshed csv files
+    df_list = create_dfs()
+
+    # merge dataframes from above 
+    merging_dfs(df_list, folder_path)
+    
+    # create mainframe # I want there to be a handshake here where before this point another class takes care of refreshing, creating, 
+    # merging and creating main df. Then it gets passed to the main_df class which handles operations on the data before *analytical data class 
+    # takes over with getting specific metrics.
     mainframe = retrieving_main_df()
+
+    # adjust categories for boba and grocery stores
     boba_stores(mainframe)
     grocery_stores(mainframe)
+
+    # adjust categories for boba/grocery stores using class: returns adjusted mainframe 
+    mod_main_df = Maindf(mainframe).run()
+
+
     create_categorical_dfs(mainframe, current_categories(mainframe))
     tracking_payments(mainframe)
     
@@ -103,6 +121,6 @@ if __name__ == '__main__':
     # make a for loop or comprehension for the categorical describe to go over all categories.
 
     """
-    Transfer code from main_df_module thats used here to the class format.
+    TODO Transfer code from main_df_module thats used here to the class format.
     
     """
