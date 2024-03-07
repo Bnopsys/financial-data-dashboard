@@ -23,7 +23,7 @@ def process_capital_one():
     df = read_data(capital_one_file)
     add_users_map(df, card_users)
     func_default_categories(df, default_categories_cof)
-    df = modify_cols(df, tablename='Capital One', Date='Transaction Date')
+    df = modify_cols(df, tablename='Capital One', date='Transaction Date')
     df = sort_on_date(df)
     send_to_csv(df, path_of_data_folder,'capital_one_data.csv')
 

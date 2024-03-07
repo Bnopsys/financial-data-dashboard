@@ -86,34 +86,7 @@ def correcting_categories(df: pd.DataFrame, shop_list, newloc):
         df.loc[mask, 'Category'] = newloc # TODO  what does this mean with the .loc/ learn all the different uses for .loc
 
 
-class MainfileProj:
-    def __init__(self):
-        ...
-    # refresh csvs
-    def refresh_csvs(self):
-        ...
-        # add process_{bank_acc}()s
 
-    # create dfs
-    def create_dfs(self):
-        ...
-        # make a list of companies, validate, then return files for each company
-        # list comprehension changing files to dataframes for each company
-
-    # merge dfs
-    def merge_dfs(self):
-        ...
-        # use the dataframes list from create_dfs and merge them into one
-
-    # get main df
-    def main_df(self):
-        ...
-        # read_data for maindata file
-
-    # rename/move purchases based on category(boba, grocery stores)
-    def move_purchases(self):
-        ...
-        # take the grocery and boba lists aand correcting_categories for them
 
 if __name__ == "__main__":
     mainfile = '/Users/roddystones/Documents/datafiles/main_datafile.csv'

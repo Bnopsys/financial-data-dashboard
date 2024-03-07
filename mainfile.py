@@ -34,7 +34,8 @@ def create_dfs() -> list:
 
     The df_list_func takes the given list of filepaths and returns a list of dataframes. 
     """
-    company_list = get_company_list('Capital One', 'Citi', 'Navy Fed', company_dict=modified_files_dict)
+    companies = ['Capital One', 'Citi', 'Navy Fed']
+    company_list = get_company_list(companies, company_dict=modified_files_dict)
     return df_list_func(company_list)
 
 def merging_dfs(df_list: list, folder_path):

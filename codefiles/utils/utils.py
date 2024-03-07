@@ -15,12 +15,12 @@ def add_users_map(df, dict):
     df['User'] = df['Card No.'].map(dict)
     return df['User']
 
-def modify_cols(df: pd.DataFrame, tablename=None, User=None, Date=None):
-    if User != None:
-        df['User'] = User
+def modify_cols(df: pd.DataFrame, tablename=None, user=None, date=None):
+    if user != None:
+        df['User'] = user
         
-    if Date != None:
-        df['Date'] = pd.to_datetime(df[Date])
+    if date != None:
+        df['Date'] = pd.to_datetime(df[date])
         df['Date'] = df['Date'].dt.date
 
     if tablename != None:

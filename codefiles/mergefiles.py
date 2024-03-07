@@ -4,7 +4,7 @@ from codefiles.utils.utils import set_datetime, sort_on_date
 
 
 
-def merge_dataframes(dataframes_list, folder_path):
+def merge_dataframes(dataframes_list: list, folder_path):
     """
     This function concats a list of dataframes then runs the util functions set_datetime and sort_on date. 
     Lastly it converts the dataframe to csv based on the location we specify in the main function.

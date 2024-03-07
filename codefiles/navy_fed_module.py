@@ -19,7 +19,7 @@ default_categories_navyfed = {'Restaurants/Dining': 'Restaurants',
 def handle_files(filename):
     df = read_data(filename)
     converting_amount_indicator(df)
-    df = modify_cols(df=df, tablename='Navy Fed', User='Roderick S.', Date='Booking Date')
+    df = modify_cols(df=df, tablename='Navy Fed', user='Roderick S.', date='Booking Date')
     return df
 
 def process_navy_fed():
