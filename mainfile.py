@@ -90,35 +90,39 @@ def boba_stores(df):
 
 
 if __name__ == '__main__':
-    # refresh csv files
+    """# refresh csv files
     refresh_csv()
 
     # create dataframes from refreshed csv files
     df_list = create_dfs()
 
     # merge dataframes from above 
-    merging_dfs(df_list, folder_path)
+    merging_dfs(df_list, folder_path)"""
     
     # create mainframe # I want there to be a handshake here where before this point another class takes care of refreshing, creating, 
     # merging and creating main df. Then it gets passed to the main_df class which handles operations on the data before *analytical data class 
     # takes over with getting specific metrics.
-    mainframe = retrieving_main_df()
+    """mainframe = retrieving_main_df()"""
 
     # adjust categories for boba and grocery stores
-    boba_stores(mainframe)
-    grocery_stores(mainframe)
+    """boba_stores(mainframe)
+    grocery_stores(mainframe)"""
 
+    mainframe = MainfileCreation()
+    mainframe = mainframe.run()
     # adjust categories for boba/grocery stores using class: returns adjusted mainframe 
     mod_main_df = Maindf(mainframe).run()
+    print(mainframe)
 
+    # TODO Now that my code isn't tied to any of these other functions start purging them.
 
-    create_categorical_dfs(mainframe, current_categories(mainframe))
+    """create_categorical_dfs(mainframe, current_categories(mainframe))
     tracking_payments(mainframe)
     
     categs_table = data_stats(mainframe, date='PastMonth')
     deviation = budget_deviation(categs_table['total_spend'], budget_rough)
     mainframe, outliers_df = categorical_describe(mainframe, 'Groceries')
-    print(outliers_df)
+    print(outliers_df)"""
     # make a for loop or comprehension for the categorical describe to go over all categories.
 
     """

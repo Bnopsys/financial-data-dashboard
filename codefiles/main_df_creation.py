@@ -1,8 +1,9 @@
-from navy_fed_module import process_navy_fed
-from citi_module import process_citi
-from capital_one_module import process_capital_one
-from create_csvs import df_list_func, get_company_list
-from mergefiles import merge_dataframes
+from .navy_fed_module import process_navy_fed
+from .citi_module import process_citi
+from .capital_one_module import process_capital_one
+from .create_csvs import df_list_func, get_company_list
+from .mergefiles import merge_dataframes
+from .utils.utils import read_data
 from os import path
 
 folder_path = '/Users/roddystones/Documents/datafiles'
@@ -13,7 +14,7 @@ modified_files_dict = {'Capital One': path.join(folder_path, 'func_data_files', 
 
 class MainfileCreation:
     def __init__(self):
-        ...
+        pass
 
     def refresh_csvs(self, navyfed=False, citi=False, capitalone=False):
         """
@@ -42,8 +43,12 @@ class MainfileCreation:
     def merge_dfs(self, df_list: list, folder_path: str):
         merge_dataframes(df_list, folder_path)
 
+    def retrieving_main_df(self):
+        return read_data(path.join(folder_path, 'main_datafile.csv'))
+
 
     def run(self):
         company_list = self.refresh_csvs(navyfed=True, citi=True, capitalone=True)
         df_list = self.create_dfs(company_list)
         self.merge_dfs(df_list=df_list, folder_path=folder_path)
+        return self.retrieving_main_df()
