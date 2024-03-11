@@ -1,24 +1,49 @@
 """
 
 This file's purpose is to handle standard deviation/outlier data
-File is to take some of the data burden off analytical file. 
-
 """
 
 import pandas as pd
+from typing import TypeAlias, Literal
+
+typeLiteral: TypeAlias = Literal['Debit', 'Credit']
+"""
+look into this typeAlias so that I can have either debit or credit as options
+if not I could just make a list and see if the provided response is in the list to work off of. 
+
+But I want to learn more about TypeAlias and Literals.
+-------
+After that I need to continue filling in the StandardDeviationData class. 
+ - Take into consideration that since this gets rid of outliers it should be able to work with both debit and credit hence the typeAlias and literals above being important.
+ - make sure that defining variables inside of a function with self. allows them to be 'class-global'
+ - keep on pushing according to the steps layed out below.
+
+"""
+categories = {'Groceries': 'Debit', 'Transfers': 'Debit'}
 
 class StandardDeviationData:
     def __init__(self, df: pd.DataFrame) -> None:
         self.data = df
-        self.mean = self.data.describe()['mean']
-        self.std = self.data.describe()['std']
-        self.twenty_five_percent = self.data.describe()['25%']
-        self.seventy_five_percent = self.data.describe()['75%']
 
     def categorical_describe(self, category):
-        ...
-        # the get_df_describe function has to make a table. Id rather just do the calculations
-        # myself.
+        self.data = self.data.loc[self.data['Category'] == category]['Debit'].fillna(0)
+        self.data_vars('Debit')
+
+    def data_vars(self, column: str):
+        """
+        for column specify either 'Debit' or 'Credit' to choose the data you want to look at.
+        """
+        self.mean = self.data.describe().loc['mean'][column]
+        self.std = self.data.describe().loc['std'][column]
+        self.twenty_five_percent = self.data.describe().loc['25%'][column]
+        self.seventy_five_percent = self.data.describe().loc['75%'][column]
+        self.outliers =  (self.twenty_five_percent - (1.5 * (self.seventy_five_percent - self.twenty_five_percent)), 
+                 self.seventy_five_percent + (1.5 * (self.seventy_five_percent - self.twenty_five_percent)))
+        
+    def confirm_not_outlier(self, amount):
+        if not self.outliers[0] <= amount <= self.outliers[1]:
+            return True
+        return False
 
     # first step: get described data and dataframe filtered based on category
         # replace described data for function based on getting 25% and 75% data
@@ -97,11 +122,11 @@ if __name__ == '__main__':
     file = '/Users/roddystones/Documents/datafiles/main_datafile.csv'
     df1 = pd.read_csv(file)
 
+    print(df1['Category'].drop_duplicates())
+    cols = df1.loc[df1['Category'] == 'Misc'].drop_duplicates()
+    print(cols)
     testcls = StandardDeviationData(df1)
-
     # testing describe function first
-    print(df1[df1['Category'] == 'Restaurants'])
-    print(get_df_describe(df1, 'Restaurants'))
     # test class here
     
 
