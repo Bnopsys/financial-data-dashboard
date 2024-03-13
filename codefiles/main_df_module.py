@@ -38,5 +38,5 @@ if __name__ == "__main__":
     df = pd.read_csv(mainfile)
     
     # using class
-    main_df_tsting = Maindf(df, exportpath)
+    main_df_tsting = Maindf(df)
     main_df_tsting.run()
