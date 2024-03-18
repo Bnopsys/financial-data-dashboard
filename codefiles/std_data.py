@@ -20,7 +20,6 @@ class StandardDeviationData:
         self.data = df
         self.lookback_data = df
         self.outlier_counter = 0
-        outliers_frame = pd.DataFrame(columns = self.data.columns, index=[0]) # placeholder df until counter goes above 0
 
     def categorical_describe(self, category, amount_type):
 
@@ -45,10 +44,11 @@ class StandardDeviationData:
                 outlier_df = self.row_outlier_df(row_index=row_index)
                 data_list.append(outlier_df)
 
-            # convert datalist to outliers_df
-
-        print(data_list)
-
+        data_df = pd.DataFrame(data_list) 
+        print(data_df.columns)
+        data_df.drop(['Unnamed: 0'], inplace=True)
+        print(data_df)
+# stopping point of 20240318, currently when creating the df above it makes duplicate indexes. Need to find a way to stop that or drop the column 'Unnamed: 0'.
 
     def data_vars(self):
         """
@@ -69,7 +69,8 @@ class StandardDeviationData:
     
     def row_outlier_df(self, row_index):
         outlier_row = self.lookback_data.loc[row_index]
-        # return pd.DataFrame([outlier_row]) # creates dataframe, but id rather add the outlier row to a list and create the df at the end.
+        return outlier_row
+        
     
 
     # first step: get described data and dataframe filtered based on category

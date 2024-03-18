@@ -31,6 +31,9 @@ class Maindf:
         for category, shoplist in dict_of_cats_to_correct.items():
             self.correcting_categories(shop_list=shoplist, newloc=category)
 
+    def test_export_to_csv(self, filepath) -> None:
+        self.data.to_csv(filepath)
+
 if __name__ == "__main__":
     mainfile = '/Users/roddystones/Documents/datafiles/main_datafile.csv'
     exportpath = '/Users/roddystones/Documents/datafiles/main_df_test.xlsx'
@@ -40,3 +43,4 @@ if __name__ == "__main__":
     # using class
     main_df_tsting = Maindf(df)
     main_df_tsting.run()
+    main_df_tsting.test_export_to_csv('/Users/roddystones/Documents/datafiles/main_datafile.csv')
