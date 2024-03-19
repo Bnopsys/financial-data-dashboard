@@ -40,15 +40,13 @@ class StandardDeviationData:
             debit_val = row
 
             if self.confirm_not_outlier(debit_val): # refactor this into a separate function.
-                print('Found Outlier!')
                 outlier_df = self.row_outlier_df(row_index=row_index)
                 data_list.append(outlier_df)
+                self.remove_outlier_from_df(row_index)
 
         data_df = pd.DataFrame(data_list) 
-        print(data_df.columns)
-        data_df.drop(['Unnamed: 0'], inplace=True)
-        print(data_df)
-# stopping point of 20240318, currently when creating the df above it makes duplicate indexes. Need to find a way to stop that or drop the column 'Unnamed: 0'.
+        data_df.rename(columns={'Unnamed: 0': 'Index'}, inplace=True)
+        data_df.set_index('Index', inplace=True)
 
     def data_vars(self):
         """
@@ -61,7 +59,6 @@ class StandardDeviationData:
         self.outliers =  (self.twenty_five_percent - (1.5 * (self.seventy_five_percent - self.twenty_five_percent)), 
                  self.seventy_five_percent + (1.5 * (self.seventy_five_percent - self.twenty_five_percent)))
 
-
     def confirm_not_outlier(self, amount):
         if not self.outliers[0] <= amount <= self.outliers[1]:
             return True
@@ -70,81 +67,26 @@ class StandardDeviationData:
     def row_outlier_df(self, row_index):
         outlier_row = self.lookback_data.loc[row_index]
         return outlier_row
-        
     
+    def remove_outlier_from_df(self, row_index):
+        self.data.drop(index=row_index, inplace=True)
 
-    # first step: get described data and dataframe filtered based on category
-        # replace described data for function based on getting 25% and 75% data
-    # second step: use described data to return outliers 
+    def run(self, categories_list: list):
 
-    # third step: Make an empty list(or dict: if its a dict it could have row_no: row_data) which can hold the outlier rows
+        categs_dict = {'Groceries': 'Debit', 
+                       'Transfers': '', 
+                       'Misc': '', 
+                       'Savings': '', 
+                       'PaymentFromCheckings': 'Credit', 
+                       'Salary': 'Credit', 
+                       'Deposits': '', 
+                       'Transportation': 'Debit', 
+                       'Insurance': 'Debit', 
+                       'Restaurants': 'Debit', 
+                       'Boba': 'Debit'}
+        for category in categories_list:
+            self.categorical_describe(category)
 
-    # fourth step: loop over rows in dataframe(im using items which may not be the best approach maybe i should use iterrows or something else)
-
-    # fith step: for each row in dataframe check if it is an outlier
-
-    # sixth step: if not, skip. If so, take the row and add it to the list/dict.
-
-    # seventh step: remove the outlier line from the main dataframe
-
-    # eighth step: create a dataframe from the list/dict values.
-        
-    # TODO use the standard deviation and mean metrics to give the user an idea on where the data falls and how to better understand the data.
-
-
-
-
-def categorical_describe(df: pd.DataFrame, category):
-    """
-    Uses the built in pandas describe function to get more information on the standard deviation of a column.
-    """
-    df_method, describe_method = get_df_describe(df, category)
-    outliers = identifying_outlier_range(describe_method)
-    outliers_df = pd.DataFrame(columns = df.columns) # placeholder df until counter goes above 0
-    outlier_counter = 0
-
-    for row_index, row in df_method.items():
-        debit_val = row
-        
-        if confirm_not_outlier(debit_val, outliers):
-            outlier_df = row_outlier_df(df, row_index=row_index)
-            outliers_df = identifying_outliers_df_before_concat(outlier_df, outliers_df, outlier_counter)
-            outlier_counter += 1
-    return df, outliers_df
-
-def get_df_describe(df: pd.DataFrame, category):
-    df_method = df.loc[df['Category'] == category]['Debit'].fillna(0)
-    return df_method, df_method.describe()
-
-def identifying_outlier_range(describe_method):
-    q1 = describe_method.at['25%']
-    q3 = describe_method.at['75%'] 
-    outliers =  (q1 - (1.5 * (q3 - q1)), 
-                 q3 + (1.5 * (q3 - q1)))
-    return outliers
-
-def confirm_not_outlier(debit_val, outliers):
-    if not outliers[0] <= debit_val <= outliers[1]:
-        return True
-    return False
-
-def row_outlier_df(df: pd.DataFrame, row_index):
-    outlier_row = df.loc[row_index]
-    return pd.DataFrame([outlier_row])
-
-def remove_outlier_from_df(df: pd.DataFrame, row_index):
-    return df.drop(index=row_index, inplace=True)
-
-def identifying_outliers_df_before_concat(df:pd.DataFrame, outliers_df: pd.DataFrame, counter):
-    if counter == 0:
-        return df
-    
-    elif counter > 0:
-        return pd.concat([outliers_df, df])
-    
-    else:
-        raise Exception('Out of bounds Counter')
-    
 
 if __name__ == '__main__':
     file = '/Users/roddystones/Documents/datafiles/main_datafile.csv'
