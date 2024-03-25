@@ -28,7 +28,8 @@ if __name__ == '__main__':
     Maindf(mainframe).run()
     print(mainframe)
 
-    # TODO Now that my code isn't tied to any of these other functions start purging them.
+    # TODO 1. decouple the run function of Maindf
+    # TODO 2. start going through the different analytical data and ensure that they're still functional. 
 
     """create_categorical_dfs(mainframe, current_categories(mainframe))
     tracking_payments(mainframe)

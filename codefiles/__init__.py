@@ -6,5 +6,5 @@ from .graphs import boxplot
 
 __all__ = ['total_income', 'total_expenses', 'find_top_five_purchases',
            'data_stats', 'identifying_payments', 'tracking_payments', 
-           'categorical_describe', 'budget_deviation', 'boxplot', 'Maindf', 
+           'budget_deviation', 'boxplot', 'Maindf', 
            'MainfileCreation', 'StandardDeviationData']
