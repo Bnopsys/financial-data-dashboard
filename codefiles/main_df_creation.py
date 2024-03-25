@@ -45,10 +45,3 @@ class MainfileCreation:
 
     def retrieving_main_df(self):
         return read_data(path.join(folder_path, 'main_datafile.csv'))
-
-
-    def run(self):
-        company_list = self.refresh_csvs(navyfed=True, citi=True, capitalone=True)
-        df_list = self.create_dfs(company_list)
-        self.merge_dfs(df_list=df_list, folder_path=folder_path)
-        return self.retrieving_main_df()
