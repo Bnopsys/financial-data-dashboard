@@ -18,9 +18,6 @@ def df_list_func(file_list: list):
         print('Key Error Occured: ', ke)
         raise
 
-    # TODO make sure this is working since this is the missing link in the main file. 
-    # Currently I can refresh the csv and also merge the dataframes but i need to provide the dataframes from this
-
 def get_company_list(companies: list, company_dict):
     """
     Takes a list of company strings and converts them to a list and validates them on our dictionary. Returns: file list for companies.

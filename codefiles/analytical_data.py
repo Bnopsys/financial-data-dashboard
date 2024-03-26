@@ -45,7 +45,8 @@ def data_stats(df: pd.DataFrame, user: str = None, date: str = None|str):
         start_date = end_date - pd.DateOffset(month=1)
         mask = (df['Date'] >= start_date) & (df['Date'] <= end_date)
         df = df.loc[mask]
-
+        
+    # this is the last piece remaining before i can delete from this file.
     return df.groupby('Category').agg(
     avg_spending = pd.NamedAgg(column='Debit', aggfunc='mean'), 
     total_spend = pd.NamedAgg(column='Debit', aggfunc='sum'), 
@@ -141,6 +142,8 @@ def budget_deviation(series: pd.Series, budget_dict: dict, date=None):#Use this 
         deviation[category] = budget_dict.get(category, 0) - value
     return deviation
 
+
+# accounted for in data_stats_cls
 def date_range_from_today():
     """
     .strftime('%m/%d/%Y') for converting to my preferred format
