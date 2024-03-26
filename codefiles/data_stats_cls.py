@@ -25,3 +25,31 @@ class DataStats:
         mask = (self.data['Date'] >= start_date) & (self.data['Date'] <= end_date)
         self.data = self.data.loc[mask]
 
+    def data_cols(self):
+        # TODO fix this so it doesnt look as bad. maybe group them differently.
+        self.avg_spending = self.data.groupby('Category').agg(avg_spending = 
+                                                              pd.NamedAgg(column='Debit', aggfunc='mean'))
+        
+        self.total_spending = self.data.groupby('Category').agg(total_spend = 
+                                                                pd.NamedAgg(column='Debit', aggfunc='sum'))
+        
+        self.debit_max = self.data.groupby('Category').agg(debit_max = 
+                                                           pd.NamedAgg(column='Debit', aggfunc='max'))
+        
+        self.debit_min = self.data.groupby('Category').agg(debit_min = 
+                                                           pd.NamedAgg(column='Debit', aggfunc='min'))
+        
+        self.credit_max = self.data.groupby('Category').agg(credit_max = 
+                                                            pd.NamedAgg(column='Credit', aggfunc='max'))
+        
+        self.credit_min = self.data.groupby('Category').agg(credit_min = 
+                                                            pd.NamedAgg(column='Credit', aggfunc='min'))
+        
+        self.std_per_cat = self.data.groupby('Category').agg(std_cats = 
+                                                             pd.NamedAgg(column='Debit', aggfunc='std'))
+        
+        self.n_unique = self.data.groupby('Category').agg(n_unique = 
+                                                          pd.NamedAgg(column='Description', aggfunc='nunique'))
+        
+        self.user_purchases = self.data.groupby('Category').agg(user_purchases = 
+                                                                pd.NamedAgg(column='User', aggfunc='count'))
