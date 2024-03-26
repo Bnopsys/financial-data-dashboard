@@ -25,7 +25,7 @@ if __name__ == '__main__':
     mainframe = create_mainfile.retrieving_main_df()
 
     # adjust categories boba/grocery stores in dataframe using class: 
-    Maindf(mainframe).run()
+    Maindf(mainframe).correct_boba_and_groceries()
     print(mainframe)
 
     # TODO 1. decouple the run function of Maindf

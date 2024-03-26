@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np # look more into numpy for extra data
 from codefiles.data_assist import boba_shops, grocery_list
 
 class Maindf:
@@ -19,9 +18,9 @@ class Maindf:
             mask = self.data['Description'].str.contains(item, case=False)
             self.data.loc[mask, 'Category'] = newloc # TODO  what does this mean with the .loc/ learn all the different uses for .loc
 
-    def run(self):
+    def correct_boba_and_groceries(self):
         """
-        Public method to run everything. Its job is to combine the differnt methods together and run everything 
+        Public method to adjust boba and groceries based on external dicts. Its job is to combine the differnt methods together and run everything 
         in the correct order rather than chaining different events. 
 
         TODO change this so make it more scalable.
@@ -30,9 +29,6 @@ class Maindf:
         dict_of_cats_to_correct = {'Boba':boba_shops, 'Groceries': grocery_list}
         for category, shoplist in dict_of_cats_to_correct.items():
             self.correcting_categories(shop_list=shoplist, newloc=category)
-
-    def test_export_to_csv(self, filepath) -> None:
-        self.data.to_csv(filepath)
 
 if __name__ == "__main__":
     mainfile = '/Users/roddystones/Documents/datafiles/main_datafile.csv'
