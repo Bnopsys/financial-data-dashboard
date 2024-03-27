@@ -28,8 +28,11 @@ if __name__ == '__main__':
     Maindf(mainframe).correct_boba_and_groceries()
     print(mainframe)
 
-    # TODO 1. decouple the run function of Maindf
-    # TODO 2. start going through the different analytical data and ensure that they're still functional. 
+    # try out datastats
+    metrics_data = DataStats(df=mainframe, user='Roderick S.')
+    print(metrics_data.data_cols())
+    
+
 
     """create_categorical_dfs(mainframe, current_categories(mainframe))
     tracking_payments(mainframe)
