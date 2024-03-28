@@ -26,7 +26,6 @@ if __name__ == '__main__':
 
     # adjust categories boba/grocery stores in dataframe using class: 
     Maindf(mainframe).correct_boba_and_groceries()
-    print(mainframe)
 
     # try out datastats
     metrics_data = DataStats(df=mainframe, user='Roderick S.')

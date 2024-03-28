@@ -14,7 +14,8 @@ class DataStats:
 
 
     def month_to_date(self):
-
+        
+        self.data = self.data.copy()
         self.data['Date'] = pd.to_datetime(self.data['Date'])
         start_date, end_date = self.month_prior_date, self.todays_date
         mask = (self.data['Date'] <= end_date) & (self.data['Date'] >= start_date)
@@ -22,7 +23,8 @@ class DataStats:
 
  
     def past_month(self):
-
+        
+        self.data = self.data.copy()
         self.data['Date'] = pd.to_datetime(self.data['Date'])
         end_date = self.todays_date + pd.offsets.MonthEnd(0) - pd.offsets.MonthBegin(1)
         start_date = end_date - pd.DateOffset(month=1)
@@ -33,9 +35,13 @@ class DataStats:
     def data_cols(self):
         # TODO to ensure the accuracy of this code, make the proper adjustments before we pull the groupby data
         # that means remove lines that dont matter for categorizing the data. (I.e. the duplicate charges from navy fed -> credit cards)
+        self.data = self.data.copy()
+        self.data.fillna(0, inplace=True)
         return self.data.groupby('Category').agg(
-            avg_spending = pd.NamedAgg(column='Debit', aggfunc='mean'), 
-            total_spend = pd.NamedAgg(column='Debit', aggfunc='sum'), 
+            debit_avg_spending = pd.NamedAgg(column='Debit', aggfunc='mean'), 
+            credit_avg_spending = pd.NamedAgg(column='Credit', aggfunc='mean'),
+            debit_total_spend = pd.NamedAgg(column='Debit', aggfunc='sum'), 
+            credit_total_spend = pd.NamedAgg(column='Credit', aggfunc='sum'),
             debit_max = pd.NamedAgg(column='Debit', aggfunc='max'), 
             debit_min = pd.NamedAgg(column='Debit', aggfunc='min'), 
             credit_max = pd.NamedAgg(column='Credit', aggfunc='max'), 
@@ -44,13 +50,4 @@ class DataStats:
             n_unique = pd.NamedAgg(column='Description', aggfunc='nunique'), 
             user_purchases = pd.NamedAgg(column='User', aggfunc='count'))
         
-
-    def col_chooser(self, cols: list):
-        """
-        This function takes a list of column names (as strings) and returns a DataFrame 
-        with those columns of stats_data.
-        If a column name does not exist, it will be ignored.
-        """
-
-        return self.metrics_data([cols])
     
