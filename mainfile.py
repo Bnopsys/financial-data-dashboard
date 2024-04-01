@@ -10,9 +10,7 @@ budget_rough = {'Transportation': 400,
                 'Savings': 700}
 
 folder_path = '/Users/roddystones/Documents/datafiles'
-modified_files_dict = {'Capital One': path.join(folder_path, 'func_data_files', 'capital_one_data.csv'), 
-                       'Citi': path.join(folder_path, 'func_data_files', 'citi_data.csv'), 
-                       'Navy Fed': path.join(folder_path, 'func_data_files', 'navyfed_data.csv')}
+
 
 if __name__ == '__main__':
 
@@ -30,19 +28,4 @@ if __name__ == '__main__':
     # try out datastats
     metrics_data = DataStats(df=mainframe, user='Roderick S.')
     print(metrics_data.data_cols())
-    
-
-
-    """create_categorical_dfs(mainframe, current_categories(mainframe))
-    tracking_payments(mainframe)
-    
-    categs_table = data_stats(mainframe, date='PastMonth')
-    deviation = budget_deviation(categs_table['total_spend'], budget_rough)
-    mainframe, outliers_df = categorical_describe(mainframe, 'Groceries')
-    print(outliers_df)"""
-    # make a for loop or comprehension for the categorical describe to go over all categories.
-
-    """
-    TODO Transfer code from main_df_module thats used here to the class format.
-    
-    """
+    print(mainframe.loc[mainframe['Category'] == 'Transfers'])
