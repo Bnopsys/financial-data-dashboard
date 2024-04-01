@@ -1,6 +1,8 @@
 """
-
 This file's purpose is to handle standard deviation/outlier data
+
+It shouldnt remove all outliers but only true outliers that would just make the data ugly to look at. 
+I think going 2 standard deviations beyond the outlier limits is a good point to separate normal outliers from buying cars.
 """
 
 import pandas as pd
@@ -22,7 +24,6 @@ class StandardDeviationData:
         """
 
         self.data = self.data.loc[self.data['Category'] == category][amount_type].fillna(0)
-        # TODO figure out if it would just be better to fill both debit and credit with 0's and calculate based on both columns.
         self.data_vars()
         data_list = []
         
@@ -49,6 +50,9 @@ class StandardDeviationData:
         self.seventy_five_percent = self.data.describe().at['75%']
         self.outliers =  (self.twenty_five_percent - (1.5 * (self.seventy_five_percent - self.twenty_five_percent)), 
                  self.seventy_five_percent + (1.5 * (self.seventy_five_percent - self.twenty_five_percent)))
+        
+        # TODO recalculate the std before identifying since i want to see what the std would look like without these
+        self.true_outliers = (self.outliers[0] - (2 * self.std), self.outliers[1] + (2 * self.std))
 
 
     def confirm_not_outlier(self, amount):

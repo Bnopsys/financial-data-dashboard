@@ -46,7 +46,8 @@ class DataStats:
             debit_min = pd.NamedAgg(column='Debit', aggfunc='min'), 
             credit_max = pd.NamedAgg(column='Credit', aggfunc='max'), 
             credit_min = pd.NamedAgg(column='Credit', aggfunc='min'), 
-            std_cats = pd.NamedAgg(column='Debit', aggfunc='std'), 
+            debit_std_cats = pd.NamedAgg(column='Debit', aggfunc='std'), 
+            credit_std_cats = pd.NamedAgg(column='Credit', aggfunc='std'),
             n_unique = pd.NamedAgg(column='Description', aggfunc='nunique'), 
             user_purchases = pd.NamedAgg(column='User', aggfunc='count'))
         
