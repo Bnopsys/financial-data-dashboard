@@ -54,6 +54,12 @@ class StandardDeviationData:
         # TODO recalculate the std before identifying since i want to see what the std would look like without these
         self.true_outliers = (self.outliers[0] - (2 * self.std), self.outliers[1] + (2 * self.std))
 
+        """
+        Where to pick up: I was trying to just use the true_outliers as a patch for this class. I wanted it to identify the extreme outliers and remove them but there are some
+        isses. Firstly, the data_vars need to be recalculated after outlers. Secondly, The outliers need to merge into a single table for the output with empty dataframe handling. 
+        Lastly, before identifying outliers to remove we need to calculate the std based on the data without outliers.
+        
+        """
 
     def confirm_not_outlier(self, amount):
         if not self.true_outliers[0] <= amount <= self.true_outliers[1]:
