@@ -1,5 +1,4 @@
 from codefiles import *
-from os import path
 
 budget_rough = {'Transportation': 400, 
                 'Misc': 350, 
@@ -25,7 +24,5 @@ if __name__ == '__main__':
     # adjust categories boba/grocery stores in dataframe using class: 
     Maindf(mainframe).correct_boba_and_groceries()
 
-    # try out datastats
-    metrics_data = DataStats(df=mainframe, user='Roderick S.')
-    print(metrics_data.data_cols())
-    print(mainframe.loc[mainframe['Category'] == 'Transfers'])
+    std_outliers = StandardDeviationData(mainframe)
+    print(std_outliers.run(['Groceries', 'Boba', 'Transfers']))

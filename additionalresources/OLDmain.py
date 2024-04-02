@@ -16,7 +16,6 @@ class Fiancial_df:
     """
     This class takes the category passed to it and filters down the main table with that criteria.
 
-    TODO Use the categorical tables for individual analysis.
     """
     def __init__(self, dataframe, category):
         self.dataframe = dataframe

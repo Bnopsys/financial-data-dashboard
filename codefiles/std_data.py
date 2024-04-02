@@ -2,7 +2,7 @@
 This file's purpose is to handle standard deviation/outlier data
 
 It shouldnt remove all outliers but only true outliers that would just make the data ugly to look at. 
-I think going 2 standard deviations beyond the outlier limits is a good point to separate normal outliers from buying cars.
+By going 2 standard deviations beyond the outlier limits, I can identify the difference between normal outliers from buying cars.
 """
 
 import pandas as pd
@@ -23,11 +23,11 @@ class StandardDeviationData:
         Amount Type: Either 'Debit' or 'Credit'. This specifies whether to fill NaNs to 0 for the column.
         """
 
-        self.data = self.data.loc[self.data['Category'] == category][amount_type].fillna(0)
+        self.current_data = self.data.loc[self.data['Category'] == category][amount_type].fillna(0)
         self.data_vars()
         data_list = []
         
-        for row_index, row in self.data.items():
+        for row_index, row in self.current_data.items():
             debit_val = row
 
             if self.confirm_not_outlier(debit_val): # refactor this into a separate function.
@@ -37,17 +37,17 @@ class StandardDeviationData:
 
         outliers_df = pd.DataFrame(data_list) 
         outliers_df.rename(columns={'Unnamed: 0': 'Index'}, inplace=True)
-        outliers_df.set_index('Index', inplace=True)
+        
 
         return outliers_df
 
 
     def data_vars(self):
 
-        self.mean = self.data.describe().at['mean']
-        self.std = self.data.describe().at['std']
-        self.twenty_five_percent = self.data.describe().at['25%']
-        self.seventy_five_percent = self.data.describe().at['75%']
+        self.mean = self.current_data.describe().at['mean']
+        self.std = self.current_data.describe().at['std']
+        self.twenty_five_percent = self.current_data.describe().at['25%']
+        self.seventy_five_percent = self.current_data.describe().at['75%']
         self.outliers =  (self.twenty_five_percent - (1.5 * (self.seventy_five_percent - self.twenty_five_percent)), 
                  self.seventy_five_percent + (1.5 * (self.seventy_five_percent - self.twenty_five_percent)))
         
@@ -56,7 +56,7 @@ class StandardDeviationData:
 
 
     def confirm_not_outlier(self, amount):
-        if not self.outliers[0] <= amount <= self.outliers[1]:
+        if not self.true_outliers[0] <= amount <= self.true_outliers[1]:
             return True
         return False
 
@@ -84,9 +84,10 @@ class StandardDeviationData:
                        'Restaurants': 'Debit', 
                        'Boba': 'Debit'}
         
-        outlier_data = {}
+        outlier_data = []
         for category in categories_list:
-            outlier_data[category] = self.categorical_describe(category, amount_type=categs_dict[category])
-
+            outlier_data.append(self.categorical_describe(category, amount_type=categs_dict[category]))
+        
+        # outlier_data = pd.DataFrame(outlier_data)
         return outlier_data
     

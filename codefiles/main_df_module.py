@@ -3,7 +3,7 @@ from codefiles.data_assist import boba_shops, grocery_list
 
 class Maindf:
     """
-    The purpose of this class is to take the product of main_df_creation(name subject to change) and make base changes to it.
+    The purpose of this class is to take the product of Maindf(name subject to change) and make base changes to it.
     
     Think of this class as restructuring the bones of the data. It handles bigger operations (moving lines to different categories)
 
