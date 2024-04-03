@@ -1,20 +1,29 @@
 from .navy_fed_module import process_navy_fed
 from .citi_module import process_citi
 from .capital_one_module import process_capital_one
-from .create_csvs import df_list_func, get_company_list
+from .create_dfs import df_list_func, get_company_list
 from .mergefiles import merge_dataframes
-from .utils.utils import read_data
+from .utils.utils import read_data, set_datetime, sort_on_date
 from os import path
+import pandas as pd
 
 folder_path = '/Users/roddystones/Documents/datafiles'
-modified_files_dict = {'Capital One': path.join(folder_path, 'func_data_files', 'capital_one_data.csv'), 
-                       'Citi': path.join(folder_path, 'func_data_files', 'citi_data.csv'), 
-                       'Navy Fed': path.join(folder_path, 'func_data_files', 'navyfed_data.csv')}
+modified_files_dict = {'capital one': 
+                            [{'file_path': path.join(folder_path, 'func_data_files', 'capital_one_data.csv')}, 
+                             {'file_func': process_capital_one}], 
+
+                       'citi': 
+                            [{'file_path': path.join(folder_path, 'func_data_files', 'citi_data.csv')}, 
+                            {'file_func': process_citi}], 
+
+                       'navy fed': 
+                            [{'file_path': path.join(folder_path, 'func_data_files', 'navyfed_data.csv')}, 
+                            {'file_func': process_navy_fed}]}
 
 
 class MainfileCreation:
-    def __init__(self):
-        pass
+    def __init__(self, companylist: list[str]): # if passed ['navy fed', 'citi', 'capital one']
+        self.companylist = companylist
 
     def refresh_csvs(self, navyfed=False, citi=False, capitalone=False):
         """
@@ -22,17 +31,22 @@ class MainfileCreation:
         Then finds their data files and proceses them into a standard format.
         TODO remove file locations so it can be more modular.
         """
-        companylist = []
         if navyfed:
             process_navy_fed()
-            companylist.append('Navy Fed')
+            self.companylist.append('Navy Fed')
         if capitalone:
             process_capital_one()
-            companylist.append('Capital One')
+            self.companylist.append('Capital One')
         if citi:
             process_citi()
-            companylist.append('Citi')
-        return companylist
+            self.companylist.append('Citi')
+
+        for company in self.companylist:
+            pass 
+
+        # TODO currently working on this process. Replacing the three if statements with a for loop that goes over each string passed when creating the class. 
+        # 1. write for loop that validates if the name is in the dict, then refreshes the data based on it. 
+        # TODO ALSO LOOK AT THE GET_COMPANY_LIST FUNCTION FROM CREATE_DFS AS IT HAS THE EXACT FUNCTIONALITY THAT I WANT
         
 
     def create_dfs(self, companies:list):
@@ -42,6 +56,16 @@ class MainfileCreation:
 
     def merge_dfs(self, df_list: list, folder_path: str):
         merge_dataframes(df_list, folder_path)
+
+    def merge_dataframes(self, dataframes_list: list[pd.DataFrame], folder_path):
+        """
+        This function concats a list of dataframes then runs the util functions set_datetime and sort_on date. 
+        Lastly it converts the dataframe to csv based on the location we specify in the main function.
+        """
+        mainframe:pd.DataFrame = pd.concat(dataframes_list, ignore_index=0)
+        set_datetime(mainframe, 'Date')
+        sort_on_date(mainframe)
+        mainframe.to_csv(path.join(folder_path, 'main_datafile.csv'), index=0)
 
     def retrieving_main_df(self):
         return read_data(path.join(folder_path, 'main_datafile.csv'))

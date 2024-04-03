@@ -26,3 +26,4 @@ if __name__ == '__main__':
 
     std_outliers = StandardDeviationData(mainframe)
     print(std_outliers.run(['Groceries', 'Boba', 'Transfers']))
+    # TODO this returns an outlier table but it doesnt change the amounts from the mainframe. fix this.
