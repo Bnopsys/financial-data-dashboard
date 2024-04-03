@@ -37,10 +37,8 @@ class StandardDeviationData:
 
         outliers_df = pd.DataFrame(data_list) 
         outliers_df.rename(columns={'Unnamed: 0': 'Index'}, inplace=True)
-        
-
         return outliers_df
-
+        
 
     def data_vars(self):
 
@@ -48,11 +46,8 @@ class StandardDeviationData:
         self.std = self.current_data.describe().at['std']
         self.twenty_five_percent = self.current_data.describe().at['25%']
         self.seventy_five_percent = self.current_data.describe().at['75%']
-        self.outliers =  (self.twenty_five_percent - (1.5 * (self.seventy_five_percent - self.twenty_five_percent)), 
-                 self.seventy_five_percent + (1.5 * (self.seventy_five_percent - self.twenty_five_percent)))
-        
-        # TODO recalculate the std before identifying since i want to see what the std would look like without these
-        self.true_outliers = (self.outliers[0] - (2 * self.std), self.outliers[1] + (2 * self.std))
+        self.outliers =  (self.twenty_five_percent - (3 * (self.seventy_five_percent - self.twenty_five_percent)), 
+                 self.seventy_five_percent + (3 * (self.seventy_five_percent - self.twenty_five_percent)))
 
         """
         Where to pick up: I was trying to just use the true_outliers as a patch for this class. I wanted it to identify the extreme outliers and remove them but there are some
@@ -62,7 +57,7 @@ class StandardDeviationData:
         """
 
     def confirm_not_outlier(self, amount):
-        if not self.true_outliers[0] <= amount <= self.true_outliers[1]:
+        if not self.outliers[0] <= amount <= self.outliers[1]:
             return True
         return False
 
@@ -92,8 +87,14 @@ class StandardDeviationData:
         
         outlier_data = []
         for category in categories_list:
-            outlier_data.append(self.categorical_describe(category, amount_type=categs_dict[category]))
+            outlier_lines = self.categorical_describe(category, amount_type=categs_dict[category])
+            
+            if outlier_lines.empty == True:
+                continue
+
+            outlier_data.append(outlier_lines)
         
-        # outlier_data = pd.DataFrame(outlier_data)
+        outlier_data = pd.concat(outlier_data)
+        
         return outlier_data
     
