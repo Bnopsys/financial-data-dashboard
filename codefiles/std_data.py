@@ -35,9 +35,7 @@ class StandardDeviationData:
                 data_list.append(outlier_df)
                 self.remove_outlier_from_df(row_index)
 
-        outliers_df = pd.DataFrame(data_list) 
-        outliers_df.rename(columns={'Unnamed: 0': 'Index'}, inplace=True)
-        return outliers_df
+        return pd.DataFrame(data_list) 
         
 
     def data_vars(self):
@@ -48,13 +46,6 @@ class StandardDeviationData:
         self.seventy_five_percent = self.current_data.describe().at['75%']
         self.outliers =  (self.twenty_five_percent - (3 * (self.seventy_five_percent - self.twenty_five_percent)), 
                  self.seventy_five_percent + (3 * (self.seventy_five_percent - self.twenty_five_percent)))
-
-        """
-        Where to pick up: I was trying to just use the true_outliers as a patch for this class. I wanted it to identify the extreme outliers and remove them but there are some
-        isses. Firstly, the data_vars need to be recalculated after outlers. Secondly, The outliers need to merge into a single table for the output with empty dataframe handling. 
-        Lastly, before identifying outliers to remove we need to calculate the std based on the data without outliers.
-        
-        """
 
     def confirm_not_outlier(self, amount):
         if not self.outliers[0] <= amount <= self.outliers[1]:
@@ -72,6 +63,32 @@ class StandardDeviationData:
 
 
     def run(self, categories_list: list):
+
+        """
+        This method corrects categories by removing extreme outliers and puts them into a different category.
+
+        Categories:
+
+        Groceries
+
+        Transfers
+
+        Misc
+
+        Savings
+
+        PaymentFromCheckings
+
+        Salary
+        
+        Transportation
+
+        Insurance
+
+        Restaurants
+
+        Boba
+        """
 
         categs_dict = {'Groceries': 'Debit', 
                        'Transfers': 'Debit', 
@@ -94,7 +111,4 @@ class StandardDeviationData:
 
             outlier_data.append(outlier_lines)
         
-        outlier_data = pd.concat(outlier_data)
-        
-        return outlier_data
-    
+        return pd.concat(outlier_data)
