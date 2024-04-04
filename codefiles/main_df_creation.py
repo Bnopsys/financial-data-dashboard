@@ -35,11 +35,7 @@ class MainfileCreation:
     def create_dfs(self):
         company_list = get_company_list(companies=self.companylist, company_dict=modified_files_dict)
         return df_list_func(company_list)
-
-
-    def merge_dfs(self, df_list: list, folder_path: str):
-        merge_dataframes(df_list, folder_path)
-
+    
 
     def merge_dataframes(self, dataframes_list: list[pd.DataFrame], folder_path):
         """
@@ -50,6 +46,7 @@ class MainfileCreation:
         set_datetime(mainframe, 'Date')
         sort_on_date(mainframe)
         mainframe.to_csv(path.join(folder_path, 'main_datafile.csv'), index=0)
+
 
     def retrieving_main_df(self):
         return read_data(path.join(folder_path, 'main_datafile.csv'))

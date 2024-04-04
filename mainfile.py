@@ -18,7 +18,7 @@ if __name__ == '__main__':
 
     company_list = create_mainfile.refresh_csvs()
     df_list = create_mainfile.create_dfs()
-    create_mainfile.merge_dfs(df_list=df_list, folder_path=folder_path)
+    create_mainfile.merge_dataframes(dataframes_list=df_list, folder_path=folder_path)
     mainframe = create_mainfile.retrieving_main_df()
 
     # adjust categories boba/grocery stores in dataframe using class: 
