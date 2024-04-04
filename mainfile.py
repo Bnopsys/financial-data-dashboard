@@ -27,3 +27,13 @@ if __name__ == '__main__':
     std_outliers = StandardDeviationData(mainframe)
     print(std_outliers.run(['Groceries', 'Boba', 'Transfers']))
     # TODO this returns an outlier table but it doesnt change the amounts from the mainframe. fix this.
+    # TODO look into analytical data file and remove useless metrics. Also add new ones that are more useful for plotting.
+
+    """
+    ideas: 
+    * savings rate: the ratio of income to money going into savings.
+    * total income, total expences, net income: main values to display on dashboard.
+    * goal tracking: set a goal and see how much progress youve made towards it and the percentage added in the last month.
+    * spending per day: track which days of the week are more expensive
+    * discresionary spending: the amount spent on non-essential items like vacations, hobbies, dining out, entertainment. measure as a total or percentage of total earning/spending.
+    """
