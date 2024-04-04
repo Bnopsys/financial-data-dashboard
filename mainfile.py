@@ -14,10 +14,10 @@ folder_path = '/Users/roddystones/Documents/datafiles'
 if __name__ == '__main__':
 
     # grabs data from csv files, changes them into dataframes, merges them into one and accesses/exports data.
-    create_mainfile = MainfileCreation()
+    create_mainfile = MainfileCreation(companylist=['navy fed', 'Capital One', 'Citi'])
 
-    company_list = create_mainfile.refresh_csvs(navyfed=True, citi=True, capitalone=True)
-    df_list = create_mainfile.create_dfs(company_list)
+    company_list = create_mainfile.refresh_csvs()
+    df_list = create_mainfile.create_dfs()
     create_mainfile.merge_dfs(df_list=df_list, folder_path=folder_path)
     mainframe = create_mainfile.retrieving_main_df()
 

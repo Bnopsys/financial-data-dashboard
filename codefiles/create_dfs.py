@@ -23,4 +23,4 @@ def get_company_list(companies: list, company_dict):
     """
     
     if all([validate_in_dict(x, company_dict) for x in companies]):
-        return [company_dict[x] for x in companies] # this gets a list of the file locations; I need to get the dataframes so I'll need to create df's first.
+        return [company_dict[x]['file_path'] for x in companies] # this gets a list of the file locations; I need to get the dataframes so I'll need to create df's first.
