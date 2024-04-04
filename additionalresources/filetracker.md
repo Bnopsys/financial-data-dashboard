@@ -17,5 +17,12 @@ File Tracker
 | codefiles   | graphs.py          | Needs attention | not used currently but should be used in the creation of visualizations.|
 | codefiles   | main_df_creation.py| Complete        | handles the refreshing, creating dfs, merging dfs(from mergefiles), exports file to csv and reads csv for mainfile.|
 | codefiles   | main_df_module.py  | Needs attention | handles the category swapping of boba and grocery stores.|
-| codefiles   | mergefiles.py      | In work(move to existing file)| merges a list of dataframes and saves as filename: main_datafile.csv|
 | codefiles   | navy_fed_module.py | Complete        | transforms navy fed data into std format|
+| codefiles/utils | __init__.py    | Complete        | handles all inner files to assist in importing them in other files.|
+| codefiles/utils | utils.py       | Complete        | has small operations shared between the three refresh csv files cof, nf, and citi.|
+| additionalresources | filetracker.md | CURRENT FILE | CURRENT FILE | 
+| additionalresources | OLDmain.py | Not used        | Old file for main project before I rewrote it in late January |
+| additionalresources | pysankey.py| Complete        | I got this code from github since it helps make sankey diagrams better than the Seaborn implementation.|
+| additionalresources/planningpdfs| CapitalOneOutline.pdf| Complete| Used to help map out info on capital one during early development.| 
+| additionalresources/planningpdfs| FinancesFreeform.pdf| Complete| Just used to help map out ideas for project.|
+| additionalresources/planningpdfs| ProjectFlow.pdf| Complete| Another visual I made to help map out what I wanted out of this project.|
