@@ -3,7 +3,9 @@ import pandas as pd
 class DataStats:
 
     def __init__(self, df: pd.DataFrame, user: str = None) -> None:
-
+        """
+        After modifying the data one way, you must create a new class instance when filtering the data a different way.
+        """
         self.data = df
         self.user = user
         self.todays_date = pd.to_datetime('now')
@@ -31,24 +33,20 @@ class DataStats:
         mask = (self.data['Date'] >= start_date) & (self.data['Date'] <= end_date)
         self.data = self.data.loc[mask]
 
-
-    def data_cols(self):
-        # TODO to ensure the accuracy of this code, make the proper adjustments before we pull the groupby data
-        # that means remove lines that dont matter for categorizing the data. (I.e. the duplicate charges from navy fed -> credit cards)
+    def format_cols(self):
         self.data = self.data.copy()
         self.data.fillna(0, inplace=True)
-        return self.data.groupby('Category').agg(
-            debit_avg_spending = pd.NamedAgg(column='Debit', aggfunc='mean'), 
-            credit_avg_spending = pd.NamedAgg(column='Credit', aggfunc='mean'),
-            debit_total_spend = pd.NamedAgg(column='Debit', aggfunc='sum'), 
-            credit_total_spend = pd.NamedAgg(column='Credit', aggfunc='sum'),
-            debit_max = pd.NamedAgg(column='Debit', aggfunc='max'), 
-            debit_min = pd.NamedAgg(column='Debit', aggfunc='min'), 
-            credit_max = pd.NamedAgg(column='Credit', aggfunc='max'), 
-            credit_min = pd.NamedAgg(column='Credit', aggfunc='min'), 
-            debit_std_cats = pd.NamedAgg(column='Debit', aggfunc='std'), 
-            credit_std_cats = pd.NamedAgg(column='Credit', aggfunc='std'),
-            n_unique = pd.NamedAgg(column='Description', aggfunc='nunique'), 
-            user_purchases = pd.NamedAgg(column='User', aggfunc='count'))
+
+    def type_data(self, financial_type: str):
+        options = ['Debit', 'Credit']
+        if financial_type not in options:
+            raise ValueError('Please enter either: Debit or Credit for financial_type')
         
-    
+        self.format_cols()
+        return self.data.groupby('Category').agg(avg_spending = pd.NamedAgg(column=financial_type, aggfunc='mean'), 
+                                                 total_spend = pd.NamedAgg(column=financial_type, aggfunc='mean'), 
+                                                 max = pd.NamedAgg(column=financial_type, aggfunc='max'), 
+                                                 min = pd.NamedAgg(column=financial_type, aggfunc='min'), 
+                                                 std = pd.NamedAgg(column=financial_type, aggfunc='std'), 
+                                                 n_unique = pd.NamedAgg(column='Description', aggfunc='nunique'), 
+                                                 user_purchases = pd.NamedAgg(column='User', aggfunc='count'))
