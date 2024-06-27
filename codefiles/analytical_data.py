@@ -20,13 +20,6 @@ def find_top_five_purchases(df: pd.DataFrame):
     df1 = df1.sort_values(by=['Debit'], ascending=False)
     return df1.head(5)
 
-def total_expenses(df:pd.DataFrame) -> float:
-    modified_df = df.loc[(df['Category'] != 'Deposits') & 
-                         (df['Category'] != 'PaymentFromCheckings') & 
-                         (df['Category'] != 'Salary') & 
-                         (df['Category'] != 'Savings')]
-    return modified_df['Debit'].sum()
-
 def total_income(df: pd.DataFrame) -> float:
     """
     This function performs some operations so the data can be narrowed down to only income charges.

@@ -50,3 +50,7 @@ class DataStats:
                                                  std = pd.NamedAgg(column=financial_type, aggfunc='std'), 
                                                  n_unique = pd.NamedAgg(column='Description', aggfunc='nunique'), 
                                                  user_purchases = pd.NamedAgg(column='User', aggfunc='count'))
+    
+    def current_expenses_total(self):
+        self.past_month()
+        return self.data['Debit'].sum()

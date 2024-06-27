@@ -28,8 +28,9 @@ if __name__ == '__main__':
     spending_per_cat_data = DataStats(mainframe).type_data(financial_type='Debit')['total_spend']
     
     # Current Monthly Total
-
-
+    total_monthly_spending = DataStats(mainframe).current_expenses_total()
+    print(total_monthly_spending)
+    # currently trying to see why the data isnt getting filtered based on date when using the prior month and month to date functions.
 
     """
     ideas: 
